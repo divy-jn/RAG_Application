@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>StudyAI - Premium Sign In</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed": "#e9ddff",
+                    "tertiary": "#ffb869",
+                    "tertiary-fixed-dim": "#ffb869",
+                    "surface-container-highest": "#37333d",
+                    "primary": "#d0bcff",
+                    "error-container": "#93000a",
+                    "accent-cyan": "#22D3EE",
+                    "on-error": "#690005",
+                    "on-secondary-container": "#00424e",
+                    "secondary-fixed-dim": "#4cd7f6",
+                    "text-primary": "#F8FAFC",
+                    "primary-container": "#a078ff",
+                    "on-surface": "#e7e0ed",
+                    "outline": "#958ea0",
+                    "on-surface-variant": "#cbc3d7",
+                    "inverse-on-surface": "#322f39",
+                    "on-tertiary": "#482900",
+                    "text-secondary": "#94A3B8",
+                    "surface-container-high": "#2c2832",
+                    "on-secondary-fixed": "#001f26",
+                    "surface-container-lowest": "#0f0d15",
+                    "surface": "#15121b",
+                    "surface-variant": "#37333d",
+                    "on-primary-container": "#340080",
+                    "on-background": "#e7e0ed",
+                    "on-primary": "#3c0091",
+                    "background": "#0a0a1a",
+                    "on-secondary": "#003640",
+                    "error": "#ffb4ab",
+                    "secondary-fixed": "#acedff",
+                    "on-tertiary-fixed-variant": "#673d00",
+                    "on-tertiary-container": "#3f2300",
+                    "primary-fixed-dim": "#d0bcff",
+                    "on-tertiary-fixed": "#2c1700",
+                    "inverse-primary": "#6d3bd7",
+                    "tertiary-fixed": "#ffdcbb",
+                    "surface-dim": "#15121b",
+                    "surface-glass": "rgba(255, 255, 255, 0.03)",
+                    "secondary": "#4cd7f6",
+                    "background-deep": "#05050A",
+                    "accent-violet": "#A78BFA",
+                    "on-error-container": "#ffdad6",
+                    "tertiary-container": "#ca801e",
+                    "on-secondary-fixed-variant": "#004e5c",
+                    "inverse-surface": "#e7e0ed",
+                    "border-subtle": "rgba(255, 255, 255, 0.10)",
+                    "secondary-container": "#03b5d3",
+                    "surface-tint": "#d0bcff",
+                    "on-primary-fixed-variant": "#5516be",
+                    "on-primary-fixed": "#23005c",
+                    "surface-container": "#211e27",
+                    "surface-container-low": "#1d1a23",
+                    "outline-variant": "#494454",
+                    "surface-bright": "#3b3742"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "16px",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-md": "16px",
+                    "stack-lg": "32px",
+                    "margin-mobile": "16px",
+                    "stack-sm": "8px",
+                    "gutter": "24px",
+                    "container-max": "1280px",
+                    "margin-desktop": "40px"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "display-lg-mobile": ["Inter"],
+                    "headline-sm": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "label-md": ["Inter"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "headline-sm": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "headline-md": ["30px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.05em", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .bg-mesh {
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(208, 188, 255, 0.08) 0, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(76, 215, 246, 0.08) 0, transparent 50%);
+        }
+        .hover-lift {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hover-lift:hover {
+            transform: translateY(-4px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col selection:bg-primary selection:text-on-primary-container bg-mesh">
+<!-- TopAppBar is suppressed for Transactional Screen (Login) -->
+<main class="flex-grow flex items-center justify-center px-margin-mobile py-stack-lg relative overflow-hidden">
+<!-- Abstract Background Glows -->
+<div class="absolute top-1/4 -left-20 w-64 h-64 bg-primary/10 rounded-full blur-[100px] pointer-events-none"></div>
+<div class="absolute bottom-1/4 -right-20 w-64 h-64 bg-secondary/10 rounded-full blur-[100px] pointer-events-none"></div>
+<div class="w-full max-w-[440px] flex flex-col items-center relative z-10">
+<!-- Branding Header -->
+<div class="mb-stack-lg flex flex-col items-center gap-4">
+<img alt="StudyAI Logo" class="w-24 h-24 mb-2 drop-shadow-[0_0_15px_rgba(208,188,255,0.3)]" src="https://lh3.googleusercontent.com/aida/ADBb0ujdpEfB2jf1-cSEy9bAyQt_icHXVBDHap2BOv5Zzia0lssyihHsC1u1OcwbumSdWYzRzZOHL2XgRFgw4GzSQU7SHEGclj1WkPmxQS8Y4IUbbb-5GdDWdel75a2CLQ--OiDqCRKGHKgSZvonMEXlUbXtgPoQH0yB8Iufm7OGba3M65QBNSea_PqzLGm9QmisfDAA1d3-F6Vh1-dJ6PKWELZ9Z92Ts89dvYw6ixqibGKyH1tpB_Z3L14jUiU"/>
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">StudyAI</h1>
+<p class="font-body-md text-text-secondary text-center">Elevate your learning with neural assistance.</p>
+</div>
+<!-- Login Glass Card -->
+<div class="glass-panel w-full p-8 md:p-10 rounded-xl border border-border-subtle shadow-2xl flex flex-col gap-6">
+<div class="space-y-1">
+<h2 class="font-headline-sm text-headline-sm text-text-primary">Welcome Back</h2>
+<p class="font-label-md text-label-md text-text-secondary opacity-70">Enter your credentials to continue.</p>
+</div>
+<form class="flex flex-col gap-5">
+<!-- Email Field -->
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface-variant ml-1" for="email">Email Address</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-accent-cyan transition-colors">mail</span>
+<input class="w-full bg-surface-container-lowest/30 border border-border-subtle rounded-lg py-4 pl-12 pr-4 text-text-primary placeholder:text-outline/50 focus:outline-none focus:border-accent-cyan focus:ring-1 focus:ring-accent-cyan transition-all duration-300" id="email" name="email" placeholder="alex@studyai.io" type="email"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-center px-1">
+<label class="font-label-md text-label-md text-on-surface-variant" for="password">Password</label>
+<a class="font-label-sm text-label-sm text-secondary hover:text-accent-cyan transition-colors" href="#">Forgot Password?</a>
+</div>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-accent-cyan transition-colors">lock</span>
+<input class="w-full bg-surface-container-lowest/30 border border-border-subtle rounded-lg py-4 pl-12 pr-12 text-text-primary placeholder:text-outline/50 focus:outline-none focus:border-accent-cyan focus:ring-1 focus:ring-accent-cyan transition-all duration-300" id="password" name="password" placeholder="••••••••" type="password"/>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-text-primary transition-colors" type="button">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</div>
+<!-- Remember Me Toggle -->
+<div class="flex items-center gap-3 px-1 mt-1">
+<input class="w-5 h-5 rounded border-border-subtle bg-surface-container-low text-primary focus:ring-offset-background focus:ring-primary" id="remember" type="checkbox"/>
+<label class="font-label-md text-label-md text-on-surface-variant cursor-pointer" for="remember">Remember this session</label>
+</div>
+<!-- Sign In Button -->
+<button class="mt-4 w-full bg-gradient-to-r from-primary-container to-secondary-container hover:from-primary hover:to-secondary text-on-primary-container font-headline-sm py-4 rounded-lg shadow-[0_0_20px_rgba(160,120,255,0.2)] hover:shadow-[0_0_30px_rgba(160,120,255,0.4)] hover-lift transition-all" type="submit">
+                        Sign In
+                    </button>
+</form>
+<!-- Divider -->
+<div class="flex items-center gap-4 py-2">
+<div class="h-px flex-grow bg-border-subtle"></div>
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-widest">or continue with</span>
+<div class="h-px flex-grow bg-border-subtle"></div>
+</div>
+<!-- Social Logins -->
+<div class="grid grid-cols-2 gap-4">
+<button class="flex items-center justify-center gap-3 py-3 px-4 rounded-lg bg-surface-container/40 border border-border-subtle hover:bg-surface-container-high hover-lift transition-all">
+<img alt="Google" class="w-5 h-5 grayscale opacity-70 group-hover:grayscale-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZPEu-jSjNSaSFnMXmkivjfJ0SqPKbM67qrGM39Cbz5iJAeirKMRsOjCfx4XCaDFCdN5eQwaNm4j5x4iE6-X9U8lTX5xC8s3YyBzo0JXmGcNslqaCeZl_wq6e0BvImCkngudM9k-W7ZQtHeL31THjA4dsXYL3k0Z2Auh1u9Rm32k687MeF_TF1HgXvQvoeS0QfNU0e4FVnV7TAUSr4vkSPgTevI3uXUNT5kLpRejQilZsoYpeFEbUmMksERknjUKwwHcIKV9hZuBg"/>
+<span class="font-label-md text-label-md text-on-surface">Google</span>
+</button>
+<button class="flex items-center justify-center gap-3 py-3 px-4 rounded-lg bg-surface-container/40 border border-border-subtle hover:bg-surface-container-high hover-lift transition-all">
+<span class="material-symbols-outlined text-[20px] text-on-surface">terminal</span>
+<span class="font-label-md text-label-md text-on-surface">GitHub</span>
+</button>
+</div>
+</div>
+<!-- Footer Links -->
+<p class="mt-8 font-body-md text-text-secondary">
+                Don't have an account? 
+                <a class="text-secondary font-semibold hover:text-accent-cyan hover:underline underline-offset-4 transition-all" href="#">Sign Up</a>
+</p>
+<div class="mt-12 flex gap-6 text-outline opacity-50 font-label-sm text-label-sm uppercase tracking-tighter">
+<a class="hover:text-text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-text-primary transition-colors" href="#">Terms of Service</a>
+<a class="hover:text-text-primary transition-colors" href="#">Support</a>
+</div>
+</div>
+</main>
+<!-- BottomNavBar is suppressed for Transactional Screen (Login) -->
+</body></html>
