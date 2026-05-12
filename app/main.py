@@ -4,7 +4,7 @@ Defines middleware, exception handlers, health checks, and route registration.
 """
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse, FileResponse
+from fastapi.responses import JSONResponse, FileResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from typing import Optional, List
 from contextlib import asynccontextmanager
@@ -119,6 +119,12 @@ async def general_exception_handler(request, exc: Exception):
 
 @app.get("/")
 async def root():
+    """Redirect to frontend application."""
+    return RedirectResponse(url="/app")
+
+
+@app.get("/api/status")
+async def get_status():
     """Service metadata and status."""
     return {
         "service": settings.APP_NAME,
