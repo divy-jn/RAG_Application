@@ -20,7 +20,13 @@
                 el.className = `toast ${type}`;
                 el.textContent = msg;
                 document.getElementById('toasts').appendChild(el);
+                requestAnimationFrame(() => el.classList.add('show'));
                 setTimeout(() => el.remove(), 4000);
+            }
+
+            function toggleSidebar() {
+                document.getElementById('sidebar').classList.toggle('open');
+                document.getElementById('sidebarOverlay').classList.toggle('show');
             }
 
             async function api(path, options = {}) {
@@ -214,13 +220,13 @@
                 currentUser = null;
                 currentConversationId = null;
                 localStorage.removeItem('token');
-                document.getElementById('authScreen').style.display = 'flex';
+                document.getElementById('authScreen').style.display = '';
                 document.getElementById('appScreen').style.display = 'none';
             }
 
             function showApp() {
                 document.getElementById('authScreen').style.display = 'none';
-                document.getElementById('appScreen').style.display = 'flex';
+                document.getElementById('appScreen').style.display = '';
                 loadDocuments();
                 loadConversations();
                 fetchModels();
@@ -262,7 +268,6 @@
             // TABS
             // ==============================
             function switchTab(tab) {
-                document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
                 document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === `panel-${tab}`));
                 if (tab === 'documents') loadDocuments();
             }
@@ -851,38 +856,19 @@
                     empty.style.display = 'none';
                     grid.innerHTML = data.documents.map(doc => `
                     <div class="doc-card">
-                        <div class="doc-card-header">
-                            <div class="doc-icon">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                                    <polyline points="14 2 14 8 20 8"></polyline>
-                                </svg>
-                            </div>
-                            <div class="doc-title-wrapper">
-                                <div class="doc-name" title="${doc.original_filename || doc.filename}">${doc.original_filename || doc.filename}</div>
-                                <div class="doc-type">${doc.document_type || 'notes'}</div>
-                            </div>
+                        <div class="doc-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                            </svg>
                         </div>
-
-                        <div class="doc-stats">
-                            <div class="stat-item">
-                                <span class="stat-label">Vector Chunks</span>
-                                <span class="stat-val">${doc.chunk_count ? doc.chunk_count : '---'}</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-label">Payload Size</span>
-                                <span class="stat-val">${formatSize(doc.file_size)}</span>
-                            </div>
+                        <div class="doc-info">
+                            <div class="doc-name" title="${doc.original_filename || doc.filename}">${doc.original_filename || doc.filename}</div>
+                            <div class="doc-meta">${doc.document_type || 'notes'} · ${formatSize(doc.file_size)}${doc.chunk_count ? ' · ' + doc.chunk_count + ' chunks' : ''}</div>
                         </div>
-
-                        <div class="doc-footer" style="padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 10px;">
-                            <label style="display:flex; align-items:center; gap:6px; cursor:pointer;" title="Enable as active source">
-                                <input type="checkbox" onchange="toggleActiveDocument(${doc.id}, this.checked)" ${activeDocumentIds.includes(doc.id) ? 'checked' : ''}>
-                                <span style="font-size:12px; color:var(--text-secondary)">Active</span>
-                            </label>
-                            <button class="btn btn-sm" style="background:transparent; border:none; color:var(--danger); padding:4px;" onclick="deleteDocument(${doc.id})" title="Delete Source">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                            </button>
+                        <div class="doc-actions">
+                            <label><input type="checkbox" onchange="toggleActiveDocument(${doc.id}, this.checked)" ${activeDocumentIds.includes(doc.id) ? 'checked' : ''}> Active</label>
+                            <button onclick="deleteDocument(${doc.id})" title="Delete"><span class="material-symbols-outlined" style="font-size:18px">delete</span></button>
                         </div>
                     </div>
                 `).join('');
