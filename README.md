@@ -1,3 +1,12 @@
+---
+title: AI Study Assistant
+emoji: 📚
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+app_port: 7860
+---
+
 # AI Study Assistant
 
 An intelligent study companion that lets you upload your notes, question papers, and marking schemes — then ask questions, get explanations, evaluate answers, and generate practice exams using AI.
