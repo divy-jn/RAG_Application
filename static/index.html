@@ -157,7 +157,7 @@
 <div class="space-y-1">
 <h2 class="font-headline-sm text-headline-sm text-text-primary">
      Welcome Back
-    </h2>
+    </h2><h2 class="font-headline-sm text-headline-sm text-text-primary" id="regTitle" style="display:none;">Create Account</h2>
 <p class="font-label-md text-label-md text-text-secondary opacity-70">
      Enter your credentials to continue.
     </p>
@@ -208,6 +208,61 @@
 <button class="mt-4 w-full bg-gradient-to-r from-primary-container to-secondary-container hover:from-primary hover:to-secondary text-on-primary-container font-headline-sm py-4 rounded-lg shadow-[0_0_20px_rgba(160,120,255,0.2)] hover:shadow-[0_0_30px_rgba(160,120,255,0.4)] hover-lift transition-all" id="loginBtn" type="submit">
      Sign In
     </button>
+</form><form class="flex flex-col gap-5" id="registerForm" onsubmit="handleRegister(event)" style="display:none;"><div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface-variant ml-1" for="email">Full Name</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-accent-cyan transition-colors">
+       mail
+      </span>
+<input class="w-full bg-surface-container-lowest/30 border border-border-subtle rounded-lg py-4 pl-12 pr-4 text-text-primary placeholder:text-outline/50 focus:outline-none focus:border-accent-cyan focus:ring-1 focus:ring-accent-cyan transition-all duration-300" id="regName" name="loginUsername" placeholder="Alex Chen" type="text"/>
+</div>
+</div><div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface-variant ml-1" for="email">Username</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-accent-cyan transition-colors">
+       mail
+      </span>
+<input class="w-full bg-surface-container-lowest/30 border border-border-subtle rounded-lg py-4 pl-12 pr-4 text-text-primary placeholder:text-outline/50 focus:outline-none focus:border-accent-cyan focus:ring-1 focus:ring-accent-cyan transition-all duration-300" id="regUsername" name="loginUsername" placeholder="alexchen" type="text"/>
+</div>
+</div>
+<!-- Email Field -->
+<div class="flex flex-col gap-2">
+<label class="font-label-md text-label-md text-on-surface-variant ml-1" for="email">
+      Email Address
+     </label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-accent-cyan transition-colors">
+       mail
+      </span>
+<input class="w-full bg-surface-container-lowest/30 border border-border-subtle rounded-lg py-4 pl-12 pr-4 text-text-primary placeholder:text-outline/50 focus:outline-none focus:border-accent-cyan focus:ring-1 focus:ring-accent-cyan transition-all duration-300" id="regEmail" name="loginUsername" placeholder="alex@studyai.io" type="email"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-center px-1">
+<label class="font-label-md text-label-md text-on-surface-variant" for="password">
+       Password
+      </label>
+<a class="font-label-sm text-label-sm text-secondary hover:text-accent-cyan transition-colors" href="#">
+       Forgot Password?
+      </a>
+</div>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-accent-cyan transition-colors">
+       lock
+      </span>
+<input class="w-full bg-surface-container-lowest/30 border border-border-subtle rounded-lg py-4 pl-12 pr-12 text-text-primary placeholder:text-outline/50 focus:outline-none focus:border-accent-cyan focus:ring-1 focus:ring-accent-cyan transition-all duration-300" id="regPassword" name="password" placeholder="••••••••" type="password"/>
+<button class="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-text-primary transition-colors" type="button">
+<span class="material-symbols-outlined">
+        visibility
+       </span>
+</button>
+</div>
+</div>
+<!-- Remember Me Toggle -->
+
+<!-- Sign In Button -->
+<button class="mt-4 w-full bg-gradient-to-r from-primary-container to-secondary-container hover:from-primary hover:to-secondary text-on-primary-container font-headline-sm py-4 rounded-lg shadow-[0_0_20px_rgba(160,120,255,0.2)] hover:shadow-[0_0_30px_rgba(160,120,255,0.4)] hover-lift transition-all" id="regBtn" type="submit">Create Account</button>
 </form>
 <!-- Divider -->
 <div class="flex items-center gap-4 py-2">
@@ -240,7 +295,7 @@
 <!-- Footer Links -->
 <p class="mt-8 font-body-md text-text-secondary">
    Don't have an account?
-   <a class="text-secondary font-semibold hover:text-accent-cyan hover:underline underline-offset-4 transition-all" href="#">
+   <a class="text-secondary font-semibold hover:text-accent-cyan hover:underline underline-offset-4 transition-all" href="#" onclick="event.preventDefault(); toggleAuthUI();">
     Sign Up
    </a>
 </p>
@@ -486,6 +541,20 @@ requiredIds.forEach(id => {
     }
 });
 </script>
-<script src="app.js"></script>
+<script>
+        function toggleAuthUI() {
+            toggleAuth(); // Call original function
+            const isLogin = document.getElementById('loginForm').style.display !== 'none';
+            const welcome = document.querySelector('h2.font-headline-sm');
+            const regTitle = document.getElementById('regTitle');
+            if (isLogin) {
+                welcome.style.display = 'block';
+                if(regTitle) regTitle.style.display = 'none';
+            } else {
+                welcome.style.display = 'none';
+                if(regTitle) regTitle.style.display = 'block';
+            }
+        }
+        </script><script src="/static/app.js"></script>
 </body>
 </html>
