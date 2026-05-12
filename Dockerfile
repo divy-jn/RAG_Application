@@ -30,8 +30,8 @@ COPY . .
 # Ensure data directories exist
 RUN mkdir -p /app/data /app/chroma_db
 
-# Expose port
-EXPOSE 8000
+# Expose standard HF Space port
+EXPOSE 7860
 
-# Start command
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Start command (supports dynamic PORT injected by cloud providers)
+CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-7860}"]
