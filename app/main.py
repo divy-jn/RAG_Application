@@ -37,6 +37,19 @@ async def lifespan(app: FastAPI):
     # Ensure directories exist
     ensure_directories()
     
+    # Initialize SQLite Database if missing
+    try:
+        import sqlite3
+        db_path = settings.DATABASE_URL.replace("sqlite:///", "")
+        with sqlite3.connect(db_path) as conn:
+            with open("database_schema.sql", "r") as f:
+                conn.executescript(f.read())
+            from app.api.chat import ensure_title_column
+            ensure_title_column()
+        logger.info("Database initialized successfully.")
+    except Exception as e:
+        logger.error(f"Failed to initialize database: {e}")
+    
     # Configure LangSmith tracing (before any LangChain/LangGraph usage)
     settings.configure_langsmith()
     

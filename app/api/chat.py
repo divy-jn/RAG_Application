@@ -79,9 +79,9 @@ def ensure_title_column():
         cursor.execute("ALTER TABLE conversations ADD COLUMN title TEXT DEFAULT NULL")
         conn.commit()
     conn.close()
+    conn.close()
 
-# Run migration on import
-ensure_title_column()
+# Migration runs inside lifespan now
 
 
 def create_conversation(user_id: int, title: str = "New Chat") -> int:
