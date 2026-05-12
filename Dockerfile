@@ -24,10 +24,16 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Pre-download the HuggingFace embedding model during build so it doesn't slow down startup
 RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')"
 
-# Copy the rest of the application
-COPY . .
+# Setup non-root user required by Hugging Face Spaces
+RUN useradd -m -u 1000 user
+RUN chown -R user:user /app
+USER user
+ENV PATH="/home/user/.local/bin:$PATH"
 
-# Ensure data directories exist
+# Copy the rest of the application
+COPY --chown=user . .
+
+# Ensure data directories exist and are writable
 RUN mkdir -p /app/data /app/chroma_db
 
 # Expose standard HF Space port
