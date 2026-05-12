@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.coverage
+data/
+chroma_db/
+.env
+*.log
+server_log.txt

@@ -1,0 +1,234 @@
+{
+  "C:\\building projs\\RAG AI Application\\database_schema.sql": {
+    "mtime": 1772700844.560815,
+    "hash": "902dd776011fb9d80aeea58e6b5ddc01"
+  },
+  "C:\\building projs\\RAG AI Application\\run_server.py": {
+    "mtime": 1772700844.5660233,
+    "hash": "1b216f83f3881868bd04ad1dd3c35e8f"
+  },
+  "C:\\building projs\\RAG AI Application\\test_import.py": {
+    "mtime": 1772700844.568125,
+    "hash": "e224ed7b9d619fa5710fa11b45a8998e"
+  },
+  "C:\\building projs\\RAG AI Application\\test_stream.py": {
+    "mtime": 1772700844.5701156,
+    "hash": "a0abec0daf76e770332bc9cbbc9b06d7"
+  },
+  "C:\\building projs\\RAG AI Application\\verify_model.py": {
+    "mtime": 1772700844.5721152,
+    "hash": "7adf28cb31b456ab92060134cfc88c3e"
+  },
+  "C:\\building projs\\RAG AI Application\\app\\main.py": {
+    "mtime": 1772777662.1405852,
+    "hash": "401484143894b9d6860d29ada14c3a00"
+  },
+  "C:\\building projs\\RAG AI Application\\app\\__init__.py": {
+    "mtime": 1772700844.577119,
+    "hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "C:\\building projs\\RAG AI Application\\app\\api\\auth.py": {
+    "mtime": 1772703929.218911,
+    "hash": "6048c69082d4825ea07e553e3a6b5e02"
+  },
+  "C:\\building projs\\RAG AI Application\\app\\api\\chat.py": {
+    "mtime": 1772798149.057832,
+    "hash": "5815910c74157558a04489ec05a9f21b"
+  },
+  "C:\\building projs\\RAG AI Application\\app\\api\\documents.py": {
+    "mtime": 1772700844.59292,
+    "hash": "820b55b8611d43d46d2e50f62dd84bdb"
+  },
+  "C:\\building projs\\RAG AI Application\\app\\api\\__init__.py": {
+    "mtime": 1772700844.5841153,
+    "hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "C:\\building projs\\RAG AI Application\\app\\core\\config.py": {
+    "mtime": 1772797914.7094047,
+    "hash": "65547ea99a524f76d5f0aae151c6cf0f"
+  },
+  "C:\\building projs\\RAG AI Application\\app\\core\\exceptions.py": {
+    "mtime": 1772700844.6031237,
+    "hash": "f228cd4090b3ad0158c1698de4bf8274"
+  },
+  "C:\\building projs\\RAG AI Application\\app\\core\\health_check.py": {
+    "mtime": 1772777759.8979096,
+    "hash": "aeb2a7565ed6cd5d424917e6f8fa4be1"
+  },
+  "C:\\building projs\\RAG AI Application\\app\\core\\logging_config.py": {
+    "mtime": 1772700844.6092875,
+    "hash": "3686040b7f2950559aa8d6731dd37547"
+  },
+  "C:\\building projs\\RAG AI Application\\app\\core\\prompts.py": {
+    "mtime": 1772799749.8075438,
+    "hash": "462489159136b50ef628c85b2802c62a"
+  },
+  "C:\\building projs\\RAG AI Application\\app\\core\\retry_utils.py": {
+    "mtime": 1772700844.6146,
+    "hash": "f7aae171f8955cc95523bec351c5e4ee"
+  },
+  "C:\\building projs\\RAG AI Application\\app\\core\\state.py": {
+    "mtime": 1772700844.6165981,
+    "hash": "fbf2193e1086a86d4e531732ad23e84d"
+  },
+  "C:\\building projs\\RAG AI Application\\app\\core\\__init__.py": {
+    "mtime": 1772700844.5996902,
+    "hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "C:\\building projs\\RAG AI Application\\app\\core\\models\\document.py": {
+    "mtime": 1772700844.6247904,
+    "hash": "55643e8f5fa4262e080acf12440a1844"
+  },
+  "C:\\building projs\\RAG AI Application\\app\\core\\models\\user.py": {
+    "mtime": 1772700844.6278303,
+    "hash": "8529a1fe3d49ab4edd74ee57e9a72484"
+  },
+  "C:\\building projs\\RAG AI Application\\app\\core\\models\\__init__.py": {
+    "mtime": 1772700844.6215985,
+    "hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "C:\\building projs\\RAG AI Application\\app\\middleware\\__init__.py": {
+    "mtime": 1772700844.6349058,
+    "hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "C:\\building projs\\RAG AI Application\\app\\nodes\\answer_evaluator.py": {
+    "mtime": 1772700844.6442482,
+    "hash": "20d2fbfbaa836a62da6b8cd32247dc04"
+  },
+  "C:\\building projs\\RAG AI Application\\app\\nodes\\answer_generator.py": {
+    "mtime": 1772700844.647246,
+    "hash": "ac6d7b30e21115fceb828ad97a773bf3"
+  },
+  "C:\\building projs\\RAG AI Application\\app\\nodes\\document_retriever.py": {
+    "mtime": 1772797995.7242944,
+    "hash": "9521651a131a9600b0692bb234bd06a5"
+  },
+  "C:\\building projs\\RAG AI Application\\app\\nodes\\doubt_resolver.py": {
+    "mtime": 1772700844.6552484,
+    "hash": "0bbcb8f482ba699502b8babc526e5309"
+  },
+  "C:\\building projs\\RAG AI Application\\app\\nodes\\intent_classifier.py": {
+    "mtime": 1772700844.6572485,
+    "hash": "3408a3896b1ba2cf7b08a7bfcd36eb54"
+  },
+  "C:\\building projs\\RAG AI Application\\app\\nodes\\question_generator.py": {
+    "mtime": 1772700844.6592486,
+    "hash": "63d9d771f0ccaedddfdddd3fe4933061"
+  },
+  "C:\\building projs\\RAG AI Application\\app\\nodes\\router.py": {
+    "mtime": 1772700844.6612494,
+    "hash": "e2e754bf4cb0d816ba0e97e9bacf51c9"
+  },
+  "C:\\building projs\\RAG AI Application\\app\\nodes\\__init__.py": {
+    "mtime": 1772700844.6422477,
+    "hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "C:\\building projs\\RAG AI Application\\app\\services\\cache_service.py": {
+    "mtime": 1772798039.940974,
+    "hash": "c849beef128983ae119b12af2682457b"
+  },
+  "C:\\building projs\\RAG AI Application\\app\\services\\document_processor.py": {
+    "mtime": 1772700844.6714087,
+    "hash": "73ee9e21607e1a6282457f4da7609cee"
+  },
+  "C:\\building projs\\RAG AI Application\\app\\services\\embedding_service.py": {
+    "mtime": 1772797945.6501737,
+    "hash": "5ff43cee24e29f79c33157366212e55a"
+  },
+  "C:\\building projs\\RAG AI Application\\app\\services\\llm_service.py": {
+    "mtime": 1772777719.0565398,
+    "hash": "c618437c78ba3da434edc32ce5246185"
+  },
+  "C:\\building projs\\RAG AI Application\\app\\services\\vector_store_service.py": {
+    "mtime": 1772700844.679738,
+    "hash": "2d5a32a963e6d0f64b120da1a78afee0"
+  },
+  "C:\\building projs\\RAG AI Application\\app\\services\\__init__.py": {
+    "mtime": 1772700844.6694078,
+    "hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "C:\\building projs\\RAG AI Application\\app\\workflows\\graph.py": {
+    "mtime": 1772777717.03696,
+    "hash": "76079ea3b8ab64467c44a37a5d229161"
+  },
+  "C:\\building projs\\RAG AI Application\\app\\workflows\\__init__.py": {
+    "mtime": 1772700844.6867733,
+    "hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "C:\\building projs\\RAG AI Application\\ARCHITECTURE.md": {
+    "mtime": 1772700844.5553706,
+    "hash": "426842540e6e50bbd20b4d6e0243d20d"
+  },
+  "C:\\building projs\\RAG AI Application\\out.txt": {
+    "mtime": 1772702199.085605,
+    "hash": "1317978ff9c74dc2262e16b7a0a2a248"
+  },
+  "C:\\building projs\\RAG AI Application\\README.md": {
+    "mtime": 1772700844.557371,
+    "hash": "77fb4638da0c33c97cf510d2f2685982"
+  },
+  "C:\\building projs\\RAG AI Application\\requirements.txt": {
+    "mtime": 1772777634.8599932,
+    "hash": "749a3a0935ae1c9e4757a447897f9bff"
+  },
+  "C:\\building projs\\RAG AI Application\\server_log.txt": {
+    "mtime": 1772779216.133108,
+    "hash": "751b43c34091cb6bba1e0b1f0af58019"
+  },
+  "C:\\building projs\\RAG AI Application\\static\\index.html": {
+    "mtime": 1772700844.7507787,
+    "hash": "7cfeb075d53d0978b3a37e1cca93e326"
+  },
+  "C:\\building projs\\RAG AI Application\\data\\uploads\\1\\106b77e2-7de7-44a6-a801-22a1e96324d2.pdf": {
+    "mtime": 1772708718.713805,
+    "hash": "2f9bddafb1818dbf88e701fad7034de7"
+  },
+  "C:\\building projs\\RAG AI Application\\data\\uploads\\1\\a65f00d7-d65c-46e4-9c36-ef257f051e8f.pdf": {
+    "mtime": 1772779034.139313,
+    "hash": "6563a8f9cbe8f5319fba36bae40df673"
+  },
+  "C:\\building projs\\RAG AI Application\\sample_photos\\Screenshot 2026-02-26 183833.png": {
+    "mtime": 1772700844.6957674,
+    "hash": "6a895b995f32af4862c15b579a72fd21"
+  },
+  "C:\\building projs\\RAG AI Application\\sample_photos\\Screenshot 2026-02-26 183941.png": {
+    "mtime": 1772700844.6997662,
+    "hash": "3e193d5dfdea0cd66ad4dfed5c72c36c"
+  },
+  "C:\\building projs\\RAG AI Application\\sample_photos\\Screenshot 2026-02-26 184038.png": {
+    "mtime": 1772700844.7028666,
+    "hash": "e81175fca2edaa02034807a7c54ecaf1"
+  },
+  "C:\\building projs\\RAG AI Application\\sample_photos\\Screenshot 2026-02-26 184139.png": {
+    "mtime": 1772700844.7068734,
+    "hash": "5672695d28986e7ab150456bba0e0e36"
+  },
+  "C:\\building projs\\RAG AI Application\\sample_photos\\Screenshot 2026-02-26 184332.png": {
+    "mtime": 1772700844.7108705,
+    "hash": "095f30506b2088c2bd21c1ccec8d0d08"
+  },
+  "C:\\building projs\\RAG AI Application\\sample_photos\\Screenshot 2026-02-27 194652.png": {
+    "mtime": 1772700844.7168863,
+    "hash": "1b1d47e3637fbabf52d6c0d5411948f3"
+  },
+  "C:\\building projs\\RAG AI Application\\sample_photos\\Screenshot 2026-02-28 202604.png": {
+    "mtime": 1772700844.7208865,
+    "hash": "18981ea76fb5fdf808aa73ecbd508279"
+  },
+  "C:\\building projs\\RAG AI Application\\sample_photos\\Screenshot 2026-02-28 221331.png": {
+    "mtime": 1772700844.7248878,
+    "hash": "2e85788764f0fa2342db72f4656b73b5"
+  },
+  "C:\\building projs\\RAG AI Application\\sample_photos\\Screenshot 2026-02-28 222114.png": {
+    "mtime": 1772700844.728887,
+    "hash": "43bf8b875b9b3201de2564dd16785516"
+  },
+  "C:\\building projs\\RAG AI Application\\sample_photos\\Screenshot 2026-02-28 222221.png": {
+    "mtime": 1772700844.7333632,
+    "hash": "6680ea8f2969186f5eaae19e61c87ac6"
+  },
+  "C:\\building projs\\RAG AI Application\\sample_photos\\Screenshot 2026-02-28 222236.png": {
+    "mtime": 1772700844.7373688,
+    "hash": "b8cd0b09680c565efe21a66ecc220d6b"
+  }
+}

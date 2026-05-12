@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  rag-ai-backend:
+    build: .
+    container_name: rag-ai-app
+    ports:
+      - "8000:8000"
+    environment:
+      - LLM_BASE_URL=${LLM_BASE_URL:-https://ollama.com/v1}
+      - LLM_API_KEY=${LLM_API_KEY}
+      - LLM_MODEL=${LLM_MODEL:-gpt-oss:120b-cloud}
+      - SECRET_KEY=${SECRET_KEY:-dev-secret-key-that-is-at-least-thirty-two-characters-long}
+      - EMBEDDING_DEVICE=cpu
+    volumes:
+      # If you want to test ephemeral storage (wiped on restart), comment out these lines:
+      - ./data:/app/data
+      - ./chroma_db:/app/chroma_db
