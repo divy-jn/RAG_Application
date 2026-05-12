@@ -30,7 +30,7 @@ sqlalchemy
 aiosqlite
 
 # Utilities
-pydantic
+pydantic[email]
 pydantic-settings
 httpx
 aiofiles
