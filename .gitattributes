@@ -1,0 +1,3 @@
+# Ignore auto-generated HTML files from GitHub language statistics
+graphify-out/* linguist-generated=true
+static/index.html linguist-vendored=true
