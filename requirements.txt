@@ -1,0 +1,52 @@
+# Core Framework
+fastapi
+uvicorn[standard]
+python-multipart
+python-jose[cryptography]
+passlib[bcrypt]
+python-dotenv
+
+# LangChain & LangGraph
+langgraph
+langchain
+langchain-community
+langchain-core
+langsmith
+
+# Vector Store & Embeddings
+chromadb
+sentence-transformers
+faiss-cpu
+
+# Document Processing
+PyPDF2
+pdfplumber
+python-docx
+pypandoc
+docx2txt
+
+# Database
+sqlalchemy
+aiosqlite
+
+# Utilities
+pydantic
+pydantic-settings
+httpx
+aiofiles
+
+# Data Processing
+numpy
+pandas
+
+# Security
+bcrypt
+
+# Testing
+pytest
+pytest-asyncio
+
+# Development
+black
+flake8
+python-pptx>=1.0.2
