@@ -137,178 +137,143 @@
 <div id="toasts"></div>
 <main class="flex-grow flex items-center justify-center px-margin-mobile py-stack-lg relative overflow-hidden" id="authScreen">
 <!-- Abstract Background Glows -->
-<div class="absolute top-1/4 -left-20 w-64 h-64 bg-primary/10 rounded-full blur-[100px] pointer-events-none">
-</div>
-<div class="absolute bottom-1/4 -right-20 w-64 h-64 bg-secondary/10 rounded-full blur-[100px] pointer-events-none">
-</div>
+<div class="absolute top-1/4 -left-20 w-64 h-64 bg-primary/10 rounded-full blur-[100px] pointer-events-none"></div>
+<div class="absolute bottom-1/4 -right-20 w-64 h-64 bg-secondary/10 rounded-full blur-[100px] pointer-events-none"></div>
 <div class="w-full max-w-[440px] flex flex-col items-center relative z-10">
 <!-- Branding Header -->
-<div class="mb-stack-lg flex flex-col items-center gap-4">
-<img alt="StudyAI Logo" class="w-24 h-24 mb-2 drop-shadow-[0_0_15px_rgba(208,188,255,0.3)]" src="https://lh3.googleusercontent.com/aida/ADBb0ujdpEfB2jf1-cSEy9bAyQt_icHXVBDHap2BOv5Zzia0lssyihHsC1u1OcwbumSdWYzRzZOHL2XgRFgw4GzSQU7SHEGclj1WkPmxQS8Y4IUbbb-5GdDWdel75a2CLQ--OiDqCRKGHKgSZvonMEXlUbXtgPoQH0yB8Iufm7OGba3M65QBNSea_PqzLGm9QmisfDAA1d3-F6Vh1-dJ6PKWELZ9Z92Ts89dvYw6ixqibGKyH1tpB_Z3L14jUiU"/>
-<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-    StudyAI
-   </h1>
-<p class="font-body-md text-text-secondary text-center">
-    Elevate your learning with neural assistance.
-   </p>
+<div class="mb-8 flex flex-col items-center gap-3">
+<div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary-container to-secondary-container flex items-center justify-center shadow-[0_0_30px_rgba(160,120,255,0.3)]">
+  <span class="material-symbols-outlined text-[32px] text-white">school</span>
 </div>
-<!-- Login Glass Card -->
-<div class="glass-panel w-full p-8 md:p-10 rounded-xl border border-border-subtle shadow-2xl flex flex-col gap-6">
-<div class="space-y-1">
-<h2 class="font-headline-sm text-headline-sm text-text-primary">
-     Welcome Back
-    </h2><h2 class="font-headline-sm text-headline-sm text-text-primary" id="regTitle" style="display:none;">Create Account</h2>
-<p class="font-label-md text-label-md text-text-secondary opacity-70">
-     Enter your credentials to continue.
-    </p>
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">StudyAI</h1>
+<p class="font-body-md text-text-secondary text-center">Your AI-powered study companion</p>
 </div>
-<form class="flex flex-col gap-5" id="loginForm" onsubmit="handleLogin(event)">
-<!-- Email Field -->
-<div class="flex flex-col gap-2">
-<label class="font-label-md text-label-md text-on-surface-variant ml-1" for="email">
-      Email Address
-     </label>
-<div class="relative group">
-<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-accent-cyan transition-colors">
-       mail
-      </span>
-<input class="w-full bg-surface-container-lowest/30 border border-border-subtle rounded-lg py-4 pl-12 pr-4 text-text-primary placeholder:text-outline/50 focus:outline-none focus:border-accent-cyan focus:ring-1 focus:ring-accent-cyan transition-all duration-300" id="loginUsername" name="loginUsername" placeholder="alex@studyai.io" type="email"/>
-</div>
-</div>
-<!-- Password Field -->
-<div class="flex flex-col gap-2">
-<div class="flex justify-between items-center px-1">
-<label class="font-label-md text-label-md text-on-surface-variant" for="password">
-       Password
-      </label>
-<a class="font-label-sm text-label-sm text-secondary hover:text-accent-cyan transition-colors" href="#">
-       Forgot Password?
-      </a>
-</div>
-<div class="relative group">
-<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-accent-cyan transition-colors">
-       lock
-      </span>
-<input class="w-full bg-surface-container-lowest/30 border border-border-subtle rounded-lg py-4 pl-12 pr-12 text-text-primary placeholder:text-outline/50 focus:outline-none focus:border-accent-cyan focus:ring-1 focus:ring-accent-cyan transition-all duration-300" id="loginPassword" name="password" placeholder="••••••••" type="password"/>
-<button class="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-text-primary transition-colors" type="button">
-<span class="material-symbols-outlined">
-        visibility
-       </span>
-</button>
-</div>
-</div>
-<!-- Remember Me Toggle -->
-<div class="flex items-center gap-3 px-1 mt-1">
-<input class="w-5 h-5 rounded border-border-subtle bg-surface-container-low text-primary focus:ring-offset-background focus:ring-primary" id="remember" type="checkbox"/>
-<label class="font-label-md text-label-md text-on-surface-variant cursor-pointer" for="remember">
-      Remember this session
-     </label>
-</div>
-<!-- Sign In Button -->
-<button class="mt-4 w-full bg-gradient-to-r from-primary-container to-secondary-container hover:from-primary hover:to-secondary text-on-primary-container font-headline-sm py-4 rounded-lg shadow-[0_0_20px_rgba(160,120,255,0.2)] hover:shadow-[0_0_30px_rgba(160,120,255,0.4)] hover-lift transition-all" id="loginBtn" type="submit">
-     Sign In
-    </button>
-</form><form class="flex flex-col gap-5" id="registerForm" onsubmit="handleRegister(event)" style="display:none;"><div class="flex flex-col gap-2">
-<label class="font-label-md text-label-md text-on-surface-variant ml-1" for="email">Full Name</label>
-<div class="relative group">
-<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-accent-cyan transition-colors">
-       mail
-      </span>
-<input class="w-full bg-surface-container-lowest/30 border border-border-subtle rounded-lg py-4 pl-12 pr-4 text-text-primary placeholder:text-outline/50 focus:outline-none focus:border-accent-cyan focus:ring-1 focus:ring-accent-cyan transition-all duration-300" id="regName" name="loginUsername" placeholder="Alex Chen" type="text"/>
-</div>
-</div><div class="flex flex-col gap-2">
-<label class="font-label-md text-label-md text-on-surface-variant ml-1" for="email">Username</label>
-<div class="relative group">
-<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-accent-cyan transition-colors">
-       mail
-      </span>
-<input class="w-full bg-surface-container-lowest/30 border border-border-subtle rounded-lg py-4 pl-12 pr-4 text-text-primary placeholder:text-outline/50 focus:outline-none focus:border-accent-cyan focus:ring-1 focus:ring-accent-cyan transition-all duration-300" id="regUsername" name="loginUsername" placeholder="alexchen" type="text"/>
-</div>
-</div>
-<!-- Email Field -->
-<div class="flex flex-col gap-2">
-<label class="font-label-md text-label-md text-on-surface-variant ml-1" for="email">
-      Email Address
-     </label>
-<div class="relative group">
-<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-accent-cyan transition-colors">
-       mail
-      </span>
-<input class="w-full bg-surface-container-lowest/30 border border-border-subtle rounded-lg py-4 pl-12 pr-4 text-text-primary placeholder:text-outline/50 focus:outline-none focus:border-accent-cyan focus:ring-1 focus:ring-accent-cyan transition-all duration-300" id="regEmail" name="loginUsername" placeholder="alex@studyai.io" type="email"/>
-</div>
-</div>
-<!-- Password Field -->
-<div class="flex flex-col gap-2">
-<div class="flex justify-between items-center px-1">
-<label class="font-label-md text-label-md text-on-surface-variant" for="password">
-       Password
-      </label>
-<a class="font-label-sm text-label-sm text-secondary hover:text-accent-cyan transition-colors" href="#">
-       Forgot Password?
-      </a>
-</div>
-<div class="relative group">
-<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-accent-cyan transition-colors">
-       lock
-      </span>
-<input class="w-full bg-surface-container-lowest/30 border border-border-subtle rounded-lg py-4 pl-12 pr-12 text-text-primary placeholder:text-outline/50 focus:outline-none focus:border-accent-cyan focus:ring-1 focus:ring-accent-cyan transition-all duration-300" id="regPassword" name="password" placeholder="••••••••" type="password"/>
-<button class="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-text-primary transition-colors" type="button">
-<span class="material-symbols-outlined">
-        visibility
-       </span>
-</button>
-</div>
-</div>
-<!-- Remember Me Toggle -->
 
-<!-- Sign In Button -->
-<button class="mt-4 w-full bg-gradient-to-r from-primary-container to-secondary-container hover:from-primary hover:to-secondary text-on-primary-container font-headline-sm py-4 rounded-lg shadow-[0_0_20px_rgba(160,120,255,0.2)] hover:shadow-[0_0_30px_rgba(160,120,255,0.4)] hover-lift transition-all" id="regBtn" type="submit">Create Account</button>
+<!-- Auth Error Banner -->
+<div id="authError" class="hidden w-full mb-4 p-3 rounded-lg bg-error/10 border border-error/30 text-error text-sm text-center"></div>
+
+<!-- Auth Glass Card -->
+<div class="glass-panel w-full p-8 md:p-10 rounded-xl border border-border-subtle shadow-2xl">
+
+<!-- ===== LOGIN FORM ===== -->
+<form class="flex flex-col gap-5" id="loginForm" onsubmit="handleLogin(event)">
+<div class="space-y-1 mb-2">
+  <h2 class="font-headline-sm text-headline-sm text-text-primary">Welcome Back</h2>
+  <p class="font-label-md text-label-md text-text-secondary opacity-70">Enter your credentials to continue.</p>
+</div>
+<div class="flex flex-col gap-2">
+  <label class="font-label-md text-label-md text-on-surface-variant ml-1">Username</label>
+  <div class="relative group">
+    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-accent-cyan transition-colors">person</span>
+    <input class="w-full bg-surface-container-lowest/30 border border-border-subtle rounded-lg py-3.5 pl-12 pr-4 text-text-primary placeholder:text-outline/50 focus:outline-none focus:border-accent-cyan focus:ring-1 focus:ring-accent-cyan transition-all duration-300" id="loginUsername" placeholder="your username" type="text" required/>
+  </div>
+</div>
+<div class="flex flex-col gap-2">
+  <div class="flex justify-between items-center px-1">
+    <label class="font-label-md text-label-md text-on-surface-variant">Password</label>
+    <a class="font-label-sm text-label-sm text-secondary hover:text-accent-cyan transition-colors cursor-pointer" onclick="showForgotPassword()">Forgot?</a>
+  </div>
+  <div class="relative group">
+    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-accent-cyan transition-colors">lock</span>
+    <input class="w-full bg-surface-container-lowest/30 border border-border-subtle rounded-lg py-3.5 pl-12 pr-4 text-text-primary placeholder:text-outline/50 focus:outline-none focus:border-accent-cyan focus:ring-1 focus:ring-accent-cyan transition-all duration-300" id="loginPassword" placeholder="••••••••" type="password" required/>
+  </div>
+</div>
+<button class="mt-2 w-full bg-gradient-to-r from-primary-container to-secondary-container hover:from-primary hover:to-secondary text-white font-semibold py-3.5 rounded-lg shadow-[0_0_20px_rgba(160,120,255,0.2)] hover:shadow-[0_0_30px_rgba(160,120,255,0.4)] transition-all duration-300" id="loginBtn" type="submit">Sign In</button>
+<p class="text-center text-sm text-text-secondary mt-1">Don't have an account? <a class="text-secondary font-semibold hover:text-accent-cyan cursor-pointer transition-colors" onclick="toggleAuth()">Sign Up</a></p>
 </form>
-<!-- Divider -->
-<div class="flex items-center gap-4 py-2">
-<div class="h-px flex-grow bg-border-subtle">
+
+<!-- ===== REGISTER FORM ===== -->
+<form class="flex flex-col gap-4" id="registerForm" style="display:none" onsubmit="handleRegister(event)">
+<div class="space-y-1 mb-2">
+  <h2 class="font-headline-sm text-headline-sm text-text-primary">Create Account</h2>
+  <p class="font-label-md text-label-md text-text-secondary opacity-70">Join StudyAI and start learning smarter.</p>
 </div>
-<span class="font-label-sm text-label-sm text-outline uppercase tracking-widest">
-     or continue with
-    </span>
-<div class="h-px flex-grow bg-border-subtle">
+<div class="flex flex-col gap-1.5">
+  <label class="font-label-md text-label-md text-on-surface-variant ml-1">Full Name</label>
+  <div class="relative group">
+    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-accent-cyan transition-colors">badge</span>
+    <input class="w-full bg-surface-container-lowest/30 border border-border-subtle rounded-lg py-3.5 pl-12 pr-4 text-text-primary placeholder:text-outline/50 focus:outline-none focus:border-accent-cyan focus:ring-1 focus:ring-accent-cyan transition-all duration-300" id="regName" placeholder="Alex Johnson" type="text" required/>
+  </div>
 </div>
+<div class="flex flex-col gap-1.5">
+  <label class="font-label-md text-label-md text-on-surface-variant ml-1">Username</label>
+  <div class="relative group">
+    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-accent-cyan transition-colors">person</span>
+    <input class="w-full bg-surface-container-lowest/30 border border-border-subtle rounded-lg py-3.5 pl-12 pr-4 text-text-primary placeholder:text-outline/50 focus:outline-none focus:border-accent-cyan focus:ring-1 focus:ring-accent-cyan transition-all duration-300" id="regUsername" placeholder="alexj" type="text" required/>
+  </div>
 </div>
-<!-- Social Logins -->
-<div class="grid grid-cols-2 gap-4">
-<button class="flex items-center justify-center gap-3 py-3 px-4 rounded-lg bg-surface-container/40 border border-border-subtle hover:bg-surface-container-high hover-lift transition-all">
-<img alt="Google" class="w-5 h-5 grayscale opacity-70 group-hover:grayscale-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZPEu-jSjNSaSFnMXmkivjfJ0SqPKbM67qrGM39Cbz5iJAeirKMRsOjCfx4XCaDFCdN5eQwaNm4j5x4iE6-X9U8lTX5xC8s3YyBzo0JXmGcNslqaCeZl_wq6e0BvImCkngudM9k-W7ZQtHeL31THjA4dsXYL3k0Z2Auh1u9Rm32k687MeF_TF1HgXvQvoeS0QfNU0e4FVnV7TAUSr4vkSPgTevI3uXUNT5kLpRejQilZsoYpeFEbUmMksERknjUKwwHcIKV9hZuBg"/>
-<span class="font-label-md text-label-md text-on-surface">
-      Google
-     </span>
-</button>
-<button class="flex items-center justify-center gap-3 py-3 px-4 rounded-lg bg-surface-container/40 border border-border-subtle hover:bg-surface-container-high hover-lift transition-all">
-<span class="material-symbols-outlined text-[20px] text-on-surface">
-      terminal
-     </span>
-<span class="font-label-md text-label-md text-on-surface">
-      GitHub
-     </span>
-</button>
+<div class="flex flex-col gap-1.5">
+  <label class="font-label-md text-label-md text-on-surface-variant ml-1">Email</label>
+  <div class="relative group">
+    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-accent-cyan transition-colors">mail</span>
+    <input class="w-full bg-surface-container-lowest/30 border border-border-subtle rounded-lg py-3.5 pl-12 pr-4 text-text-primary placeholder:text-outline/50 focus:outline-none focus:border-accent-cyan focus:ring-1 focus:ring-accent-cyan transition-all duration-300" id="regEmail" placeholder="alex@example.com" type="text" required/>
+  </div>
 </div>
+<div class="flex flex-col gap-1.5">
+  <label class="font-label-md text-label-md text-on-surface-variant ml-1">Password</label>
+  <div class="relative group">
+    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-accent-cyan transition-colors">lock</span>
+    <input class="w-full bg-surface-container-lowest/30 border border-border-subtle rounded-lg py-3.5 pl-12 pr-4 text-text-primary placeholder:text-outline/50 focus:outline-none focus:border-accent-cyan focus:ring-1 focus:ring-accent-cyan transition-all duration-300" id="regPassword" placeholder="••••••••" type="password" required/>
+  </div>
 </div>
-<!-- Footer Links -->
-<p class="mt-8 font-body-md text-text-secondary">
-   Don't have an account?
-   <a class="text-secondary font-semibold hover:text-accent-cyan hover:underline underline-offset-4 transition-all" href="#" onclick="event.preventDefault(); toggleAuthUI();">
-    Sign Up
-   </a>
-</p>
-<div class="mt-12 flex gap-6 text-outline opacity-50 font-label-sm text-label-sm uppercase tracking-tighter">
-<a class="hover:text-text-primary transition-colors" href="#">
-    Privacy Policy
-   </a>
-<a class="hover:text-text-primary transition-colors" href="#">
-    Terms of Service
-   </a>
-<a class="hover:text-text-primary transition-colors" href="#">
-    Support
-   </a>
+<button class="mt-2 w-full bg-gradient-to-r from-primary-container to-secondary-container hover:from-primary hover:to-secondary text-white font-semibold py-3.5 rounded-lg shadow-[0_0_20px_rgba(160,120,255,0.2)] hover:shadow-[0_0_30px_rgba(160,120,255,0.4)] transition-all duration-300" id="regBtn" type="submit">Create Account</button>
+<p class="text-center text-sm text-text-secondary mt-1">Already have an account? <a class="text-secondary font-semibold hover:text-accent-cyan cursor-pointer transition-colors" onclick="toggleAuth()">Sign In</a></p>
+</form>
+
+<!-- ===== FORGOT PASSWORD FORM ===== -->
+<form class="flex flex-col gap-5" id="forgotPasswordForm" style="display:none" onsubmit="handleForgotPassword(event)">
+<div class="space-y-1 mb-2">
+  <h2 class="font-headline-sm text-headline-sm text-text-primary">Forgot Password</h2>
+  <p class="font-label-md text-label-md text-text-secondary opacity-70">Verify your identity to reset your password.</p>
+</div>
+<div class="flex flex-col gap-1.5">
+  <label class="font-label-md text-label-md text-on-surface-variant ml-1">Username</label>
+  <div class="relative group">
+    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-accent-cyan transition-colors">person</span>
+    <input class="w-full bg-surface-container-lowest/30 border border-border-subtle rounded-lg py-3.5 pl-12 pr-4 text-text-primary placeholder:text-outline/50 focus:outline-none focus:border-accent-cyan focus:ring-1 focus:ring-accent-cyan transition-all duration-300" id="fpUsername" placeholder="your username" type="text" required/>
+  </div>
+</div>
+<div class="flex flex-col gap-1.5">
+  <label class="font-label-md text-label-md text-on-surface-variant ml-1">Email</label>
+  <div class="relative group">
+    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-accent-cyan transition-colors">mail</span>
+    <input class="w-full bg-surface-container-lowest/30 border border-border-subtle rounded-lg py-3.5 pl-12 pr-4 text-text-primary placeholder:text-outline/50 focus:outline-none focus:border-accent-cyan focus:ring-1 focus:ring-accent-cyan transition-all duration-300" id="fpEmail" placeholder="alex@example.com" type="text" required/>
+  </div>
+</div>
+<button class="mt-2 w-full bg-gradient-to-r from-primary-container to-secondary-container hover:from-primary hover:to-secondary text-white font-semibold py-3.5 rounded-lg shadow-[0_0_20px_rgba(160,120,255,0.2)] hover:shadow-[0_0_30px_rgba(160,120,255,0.4)] transition-all duration-300" id="fpBtn" type="submit">Verify Identity</button>
+<p class="text-center text-sm text-text-secondary mt-1"><a class="text-secondary font-semibold hover:text-accent-cyan cursor-pointer transition-colors" onclick="showLoginForm()">← Back to Sign In</a></p>
+</form>
+
+<!-- ===== RESET PASSWORD FORM ===== -->
+<form class="flex flex-col gap-5" id="resetPasswordForm" style="display:none" onsubmit="handleResetPassword(event)">
+<div class="space-y-1 mb-2">
+  <h2 class="font-headline-sm text-headline-sm text-text-primary">Reset Password</h2>
+  <p class="font-label-md text-label-md text-text-secondary opacity-70">Set a new password for your account.</p>
+</div>
+<div class="flex flex-col gap-1.5">
+  <label class="font-label-md text-label-md text-on-surface-variant ml-1">New Password</label>
+  <div class="relative group">
+    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-accent-cyan transition-colors">lock</span>
+    <input class="w-full bg-surface-container-lowest/30 border border-border-subtle rounded-lg py-3.5 pl-12 pr-4 text-text-primary placeholder:text-outline/50 focus:outline-none focus:border-accent-cyan focus:ring-1 focus:ring-accent-cyan transition-all duration-300" id="rpNewPassword" placeholder="••••••••" type="password" required/>
+  </div>
+</div>
+<div class="flex flex-col gap-1.5">
+  <label class="font-label-md text-label-md text-on-surface-variant ml-1">Confirm Password</label>
+  <div class="relative group">
+    <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-accent-cyan transition-colors">lock</span>
+    <input class="w-full bg-surface-container-lowest/30 border border-border-subtle rounded-lg py-3.5 pl-12 pr-4 text-text-primary placeholder:text-outline/50 focus:outline-none focus:border-accent-cyan focus:ring-1 focus:ring-accent-cyan transition-all duration-300" id="rpConfirmPassword" placeholder="••••••••" type="password" required/>
+  </div>
+</div>
+<button class="mt-2 w-full bg-gradient-to-r from-primary-container to-secondary-container hover:from-primary hover:to-secondary text-white font-semibold py-3.5 rounded-lg shadow-[0_0_20px_rgba(160,120,255,0.2)] hover:shadow-[0_0_30px_rgba(160,120,255,0.4)] transition-all duration-300" id="rpBtn" type="submit">Reset Password</button>
+<p class="text-center text-sm text-text-secondary mt-1"><a class="text-secondary font-semibold hover:text-accent-cyan cursor-pointer transition-colors" onclick="showLoginForm()">← Back to Sign In</a></p>
+</form>
+
+</div>
+<!-- Footer -->
+<div class="mt-10 flex gap-6 text-outline opacity-50 font-label-sm text-label-sm uppercase tracking-tighter">
+<a class="hover:text-text-primary transition-colors" href="#">Privacy</a>
+<a class="hover:text-text-primary transition-colors" href="#">Terms</a>
+<a class="hover:text-text-primary transition-colors" href="#">Support</a>
 </div>
 </div>
 </main>
@@ -541,20 +506,6 @@ requiredIds.forEach(id => {
     }
 });
 </script>
-<script>
-        function toggleAuthUI() {
-            toggleAuth(); // Call original function
-            const isLogin = document.getElementById('loginForm').style.display !== 'none';
-            const welcome = document.querySelector('h2.font-headline-sm');
-            const regTitle = document.getElementById('regTitle');
-            if (isLogin) {
-                welcome.style.display = 'block';
-                if(regTitle) regTitle.style.display = 'none';
-            } else {
-                welcome.style.display = 'none';
-                if(regTitle) regTitle.style.display = 'block';
-            }
-        }
-        </script><script src="/static/app.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

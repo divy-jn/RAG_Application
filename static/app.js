@@ -42,9 +42,10 @@
                 const reg = document.getElementById('registerForm');
                 document.getElementById('forgotPasswordForm').style.display = 'none';
                 document.getElementById('resetPasswordForm').style.display = 'none';
-                login.style.display = login.style.display === 'none' ? 'block' : 'none';
-                reg.style.display = reg.style.display === 'none' ? 'block' : 'none';
-                document.getElementById('authError').style.display = 'none';
+                const loginVisible = login.style.display !== 'none';
+                login.style.display = loginVisible ? 'none' : 'flex';
+                reg.style.display = loginVisible ? 'flex' : 'none';
+                document.getElementById('authError').classList.add('hidden');
             }
 
             let resetToken = null;
@@ -53,16 +54,16 @@
                 document.getElementById('loginForm').style.display = 'none';
                 document.getElementById('registerForm').style.display = 'none';
                 document.getElementById('resetPasswordForm').style.display = 'none';
-                document.getElementById('forgotPasswordForm').style.display = 'block';
-                document.getElementById('authError').style.display = 'none';
+                document.getElementById('forgotPasswordForm').style.display = 'flex';
+                document.getElementById('authError').classList.add('hidden');
             }
 
             function showLoginForm() {
-                document.getElementById('loginForm').style.display = 'block';
+                document.getElementById('loginForm').style.display = 'flex';
                 document.getElementById('registerForm').style.display = 'none';
                 document.getElementById('forgotPasswordForm').style.display = 'none';
                 document.getElementById('resetPasswordForm').style.display = 'none';
-                document.getElementById('authError').style.display = 'none';
+                document.getElementById('authError').classList.add('hidden');
             }
 
             async function handleForgotPassword(e) {
@@ -136,7 +137,7 @@
             function showAuthError(msg) {
                 const el = document.getElementById('authError');
                 el.textContent = msg;
-                el.style.display = 'block';
+                el.classList.remove('hidden');
             }
 
             async function handleLogin(e) {
