@@ -1759,12 +1759,8 @@
                 const modelName = e.target.value;
                 if (!modelName) return;
                 const info = _modelCache[modelName];
-                const isObj = typeof info === 'object' && info !== null;
-                const available = isObj ? (info.available !== false) : true;
-                const label = isObj ? (info.label || modelName) : modelName;
-
-                if (!available) {
-                    toast(`${label} is not installed. Run: ollama pull ${modelName}`, 'error');
+                if (info && !info.available) {
+                    toast(`${info.label} is not installed. Run: ollama pull ${modelName}`, 'error');
                     // Reset to active model
                     fetchModels();
                     return;
@@ -1775,6 +1771,7 @@
                         body: JSON.stringify({ model: modelName })
                     });
                     if (res.ok) {
+                        const label = info ? info.label : modelName;
                         toast(`Switched to ${label}`);
                     }
                 } catch (err) {

@@ -151,16 +151,51 @@ async def list_models(
     llm_service: CloudLLMService = Depends(get_llm_service)
 ):
     """List available models from the cloud LLM provider."""
+    
+    def make_model_obj(model_id: str, available: bool = True) -> dict:
+        """Build a rich model descriptor for the frontend."""
+        # Clean up the display label
+        label = model_id.replace("-", " ").replace("_", " ").replace(":", " ").title()
+        return {
+            "name": model_id,
+            "label": label,
+            "description": "Cloud LLM model",
+            "available": available,
+        }
+
     try:
         response = await llm_service.client.get(f"{llm_service.base_url}/models")
         if response.status_code == 200:
             data = response.json()
-            models_list = data.get("data", data.get("models", []))
-            model_names = [m.get("id", m.get("name", "")) for m in models_list if isinstance(m, dict)]
-            return {"models": model_names, "active": llm_service.model}
+            raw_list = data.get("data", data.get("models", []))
+            
+            rich_models = []
+            for m in raw_list:
+                if isinstance(m, dict):
+                    model_id = m.get("id") or m.get("name") or ""
+                    if model_id:
+                        rich_models.append(make_model_obj(model_id))
+                elif isinstance(m, str) and m:
+                    rich_models.append(make_model_obj(m))
+            
+            if rich_models:
+                # Mark active model
+                for m in rich_models:
+                    if m["name"] == llm_service.model:
+                        break
+                else:
+                    # Active model not in list — prepend it
+                    rich_models.insert(0, make_model_obj(llm_service.model))
+                return {"models": rich_models, "active": llm_service.model}
+
     except Exception as e:
-        logger.warning(f"Failed to fetch models: {e}")
-    return {"models": [llm_service.model], "active": llm_service.model}
+        logger.warning(f"Failed to fetch models list from provider: {e}")
+
+    # Fallback — return just the active model as a rich object
+    return {
+        "models": [make_model_obj(llm_service.model)],
+        "active": llm_service.model
+    }
 
 
 @router.post("/model")
