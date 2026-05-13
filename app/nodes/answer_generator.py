@@ -5,6 +5,15 @@ Generates exam-oriented answers based on marking schemes and notes
 from typing import Dict, Any, Optional
 from app.core.state import GraphState, Intent
 
+try:
+    from langsmith import traceable
+except ImportError:
+    # Fallback: no-op decorator if langsmith not installed
+    def traceable(**kwargs):
+        def decorator(func):
+            return func
+        return decorator
+        
 from app.core.logging_config import get_logger, LogExecutionTime
 from app.services.llm_service import get_llm_service
 from app.core.exceptions import WorkflowNodeException, MissingDocumentsException
@@ -195,6 +204,7 @@ class AnswerGenerator:
 _answer_generator = AnswerGenerator()
 
 
+@traceable(name="node_generate_answer", run_type="chain")
 async def generate_answer_node(state: GraphState) -> GraphState:
     """
     LangGraph node function for answer generation

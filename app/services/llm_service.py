@@ -11,13 +11,16 @@ from typing import Optional, Dict, Any, List
 from datetime import datetime
 
 try:
-    from langsmith import traceable
+    from langsmith import traceable, get_current_run_tree
 except ImportError:
     # Fallback: no-op decorator if langsmith not installed
     def traceable(**kwargs):
         def decorator(func):
             return func
         return decorator
+    
+    def get_current_run_tree():
+        return None
 
 
 from app.core.logging_config import LoggerMixin, LogExecutionTime, get_logger
@@ -227,7 +230,7 @@ class CloudLLMService(LoggerMixin):
         with LogExecutionTime(self.logger, "LLM Generation", logging.INFO):
             try:
                 # Execute with circuit breaker protection
-                result = await self._generate_with_protection(
+                result, usage = await self._generate_with_protection(
                     prompt=prompt,
                     system_prompt=system_prompt,
                     temperature=temperature,
@@ -235,6 +238,17 @@ class CloudLLMService(LoggerMixin):
                     top_p=top_p,
                     stream=stream
                 )
+                
+                # Report token usage to LangSmith
+                run = get_current_run_tree()
+                if run and usage:
+                    # Update run metadata and extra usage
+                    run.metadata["usage"] = usage
+                    if hasattr(run, "extra"):
+                        if "usage" not in run.extra:
+                            run.extra["usage"] = usage
+                        else:
+                            run.extra["usage"].update(usage)
                 
                 self.logger.info(
                     f"Generated response | "
@@ -278,7 +292,7 @@ class CloudLLMService(LoggerMixin):
         max_tokens: int,
         top_p: float,
         stream: bool
-    ) -> str:
+    ) -> tuple[str, Optional[Dict[str, Any]]]:
         """
         Internal generation method with retry protection.
         Uses OpenAI-compatible /v1/chat/completions endpoint.
@@ -319,25 +333,11 @@ class CloudLLMService(LoggerMixin):
                     original_exception=None
                 )
             
-            # Parse response
-            if stream:
-                # Handle SSE streaming response
-                full_response = ""
-                for line in response.text.split("\n"):
-                    line = line.strip()
-                    if line.startswith("data: ") and line != "data: [DONE]":
-                        try:
-                            chunk = json.loads(line[6:])
-                            delta = chunk.get("choices", [{}])[0].get("delta", {})
-                            content = delta.get("content", "")
-                            if content:
-                                full_response += content
-                        except json.JSONDecodeError:
-                            continue
-                return full_response
+                return full_response, None  # Streaming usage tracking is more complex, returning None for now
             else:
                 # Handle non-streaming response
                 data = response.json()
+                usage = data.get("usage")
                 choices = data.get("choices", [])
                 if not choices:
                     raise LLMGenerationException(
@@ -345,7 +345,8 @@ class CloudLLMService(LoggerMixin):
                         reason=f"Empty response from API: {data}",
                         original_exception=None
                     )
-                return choices[0].get("message", {}).get("content", "")
+                content = choices[0].get("message", {}).get("content", "")
+                return content, usage
             
         except httpx.ConnectError as e:
             raise LLMConnectionException(

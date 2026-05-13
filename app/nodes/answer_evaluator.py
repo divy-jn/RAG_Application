@@ -6,6 +6,15 @@ from typing import Dict, Any, List, Optional
 import re
 from app.core.state import GraphState
 
+try:
+    from langsmith import traceable
+except ImportError:
+    # Fallback: no-op decorator if langsmith not installed
+    def traceable(**kwargs):
+        def decorator(func):
+            return func
+        return decorator
+        
 from app.core.logging_config import get_logger, LogExecutionTime
 from app.services.llm_service import get_llm_service
 from app.services.embedding_service import get_embedding_service
@@ -347,6 +356,7 @@ class AnswerEvaluator:
 _answer_evaluator = AnswerEvaluator()
 
 
+@traceable(name="node_evaluate_answer", run_type="chain")
 async def evaluate_answer_node(state: GraphState) -> GraphState:
     """
     LangGraph node function for answer evaluation

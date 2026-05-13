@@ -5,6 +5,15 @@ Retrieves relevant document chunks based on user query and intent
 from typing import List, Dict, Any, Optional
 from app.core.state import GraphState, Intent, RetrievedDocument
 
+try:
+    from langsmith import traceable
+except ImportError:
+    # Fallback: no-op decorator if langsmith not installed
+    def traceable(**kwargs):
+        def decorator(func):
+            return func
+        return decorator
+        
 from app.core.logging_config import get_logger, LogExecutionTime
 from app.services.vector_store_service import get_vector_store
 from app.services.embedding_service import get_embedding_service
@@ -455,6 +464,7 @@ class DocumentRetriever:
 _document_retriever = DocumentRetriever()
 
 
+@traceable(name="node_retrieve_documents", run_type="chain")
 async def retrieve_documents_node(state: GraphState) -> GraphState:
     """
     LangGraph node function for document retrieval

@@ -5,6 +5,15 @@ Handles greetings, app instructions, and casual conversation without doing heavy
 from typing import Dict, Any
 from app.core.state import GraphState
 
+try:
+    from langsmith import traceable
+except ImportError:
+    # Fallback: no-op decorator if langsmith not installed
+    def traceable(**kwargs):
+        def decorator(func):
+            return func
+        return decorator
+        
 from app.core.logging_config import get_logger, LogExecutionTime
 from app.services.llm_service import get_llm_service
 from app.core.exceptions import WorkflowNodeException
@@ -75,6 +84,7 @@ class GeneralChatNode:
 _general_chat_node = GeneralChatNode()
 
 
+@traceable(name="node_general_chat", run_type="chain")
 async def general_chat_node(state: GraphState) -> GraphState:
     """
     LangGraph node function for general chat
