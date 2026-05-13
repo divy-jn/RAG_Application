@@ -17,6 +17,7 @@ def route_after_intent(state: GraphState) -> Literal[
     "evaluate_answer", 
     "resolve_doubt",
     "generate_questions",
+    "general_chat",
     "end"
 ]:
     """
@@ -34,7 +35,7 @@ def route_after_intent(state: GraphState) -> Literal[
     
     # All intents need document retrieval first (except general chat)
     if intent == Intent.GENERAL_CHAT:
-        return "end"
+        return "general_chat"
     else:
         return "retrieve_documents"
 

@@ -24,6 +24,7 @@ from app.nodes.answer_generator import generate_answer_node
 from app.nodes.answer_evaluator import evaluate_answer_node
 from app.nodes.doubt_resolver import resolve_doubt_node
 from app.nodes.question_generator import generate_questions_node
+from app.nodes.general_chat_node import general_chat_node
 
 from app.nodes.router import route_after_intent, route_after_retrieval
 
@@ -53,6 +54,7 @@ class WorkflowOrchestrator:
         workflow.add_node("evaluate_answer", evaluate_answer_node)
         workflow.add_node("resolve_doubt", resolve_doubt_node)
         workflow.add_node("generate_questions", generate_questions_node)
+        workflow.add_node("general_chat", general_chat_node)
         
         # Set entry point
         workflow.set_entry_point("classify_intent")
@@ -63,6 +65,7 @@ class WorkflowOrchestrator:
             route_after_intent,
             {
                 "retrieve_documents": "retrieve_documents",
+                "general_chat": "general_chat",
                 "end": END
             }
         )
@@ -84,6 +87,7 @@ class WorkflowOrchestrator:
         workflow.add_edge("evaluate_answer", END)
         workflow.add_edge("resolve_doubt", END)
         workflow.add_edge("generate_questions", END)
+        workflow.add_edge("general_chat", END)
         
         # Compile graph
         compiled_graph = workflow.compile()
@@ -210,7 +214,8 @@ class WorkflowOrchestrator:
                 "generate_answer",
                 "evaluate_answer",
                 "resolve_doubt",
-                "generate_questions"
+                "generate_questions",
+                "general_chat"
             ],
             "entry_point": "classify_intent",
             "supported_intents": [

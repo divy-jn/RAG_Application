@@ -145,16 +145,22 @@ def save_message(
 
 # API Endpoints
 
+# --- Models cache (avoids hitting the provider on every request) ---
+import time as _time
+_models_cache: dict = {"models": None, "fetched_at": 0}
+_MODELS_CACHE_TTL = 300  # 5 minutes
+
+
 @router.get("/models")
 async def list_models(
     current_user: dict = Depends(get_current_user),
     llm_service: CloudLLMService = Depends(get_llm_service)
 ):
-    """List available models from the cloud LLM provider."""
+    """List available models from the cloud LLM provider (cached for 5 min)."""
+    global _models_cache
     
     def make_model_obj(model_id: str, available: bool = True) -> dict:
         """Build a rich model descriptor for the frontend."""
-        # Clean up the display label
         label = model_id.replace("-", " ").replace("_", " ").replace(":", " ").title()
         return {
             "name": model_id,
@@ -163,39 +169,56 @@ async def list_models(
             "available": available,
         }
 
+    now = _time.time()
+    
+    # Return cached result if still fresh
+    if _models_cache["models"] and (now - _models_cache["fetched_at"]) < _MODELS_CACHE_TTL:
+        return {"models": _models_cache["models"], "active": llm_service.model}
+
     try:
         response = await llm_service.client.get(f"{llm_service.base_url}/models")
         if response.status_code == 200:
             data = response.json()
             raw_list = data.get("data", data.get("models", []))
             
+            # Keywords for good, free, important open-source models often used with Ollama/Cloud
+            allowed_keywords = [
+                "llama3", "llama-3", "mistral", "mixtral", 
+                "gemma", "qwen", "phi3", "phi-3", "gpt-oss", "deepseek"
+            ]
+            
             rich_models = []
             for m in raw_list:
+                model_id = ""
                 if isinstance(m, dict):
                     model_id = m.get("id") or m.get("name") or ""
-                    if model_id:
-                        rich_models.append(make_model_obj(model_id))
                 elif isinstance(m, str) and m:
-                    rich_models.append(make_model_obj(m))
+                    model_id = m
+                    
+                if model_id:
+                    model_lower = model_id.lower()
+                    # Keep if it matches our allowed list, OR if it's the currently active model
+                    if any(kw in model_lower for kw in allowed_keywords) or model_id == llm_service.model:
+                        rich_models.append(make_model_obj(model_id))
             
             if rich_models:
-                # Mark active model
+                # Ensure active model is in the list
                 for m in rich_models:
                     if m["name"] == llm_service.model:
                         break
                 else:
-                    # Active model not in list — prepend it
                     rich_models.insert(0, make_model_obj(llm_service.model))
+                
+                # Cache the result
+                _models_cache = {"models": rich_models, "fetched_at": now}
                 return {"models": rich_models, "active": llm_service.model}
 
     except Exception as e:
         logger.warning(f"Failed to fetch models list from provider: {e}")
 
-    # Fallback — return just the active model as a rich object
-    return {
-        "models": [make_model_obj(llm_service.model)],
-        "active": llm_service.model
-    }
+    # Fallback — return just the active model
+    fallback = [make_model_obj(llm_service.model)]
+    return {"models": fallback, "active": llm_service.model}
 
 
 @router.post("/model")
