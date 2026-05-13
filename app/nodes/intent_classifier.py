@@ -62,6 +62,15 @@ class IntentClassifier:
             r'\bfull\s+exam\s+paper',
             r'\bquestion\s+paper\s+with',
             r'\bcreate\s+complete\s+exam',
+        ],
+        Intent.GENERAL_CHAT: [
+            r'^(hi|hello|hey|greetings|good morning|good evening)\b',
+            r'\bhow\s+are\s+you\b',
+            r'\bwho\s+are\s+you\b',
+            r'\bhow\s+to\s+use\b',
+            r'\bhow\s+(do|can)\s+I\s+(upload|delete|create)\b',
+            r'\bwhat\s+can\s+you\s+do\b',
+            r'\bhelp\b'
         ]
     }
     
@@ -71,7 +80,8 @@ class IntentClassifier:
         Intent.ANSWER_EVALUATION: ['evaluate', 'check', 'grade', 'marks', 'feedback', 'assess'],
         Intent.DOUBT_CLARIFICATION: ['what', 'why', 'how', 'explain', 'clarify', 'understand', 'doubt'],
         Intent.QUESTION_GENERATION: ['generate questions', 'create questions', 'quiz', 'mcq'],
-        Intent.EXAM_PAPER_GENERATION: ['exam paper', 'test paper', 'question paper']
+        Intent.EXAM_PAPER_GENERATION: ['exam paper', 'test paper', 'question paper'],
+        Intent.GENERAL_CHAT: ['hi', 'hello', 'hey', 'help', 'how to use', 'upload', 'delete chat']
     }
     
     def __init__(self):
@@ -188,6 +198,7 @@ class IntentClassifier:
                 "DOUBT_CLARIFICATION": Intent.DOUBT_CLARIFICATION,
                 "QUESTION_GENERATION": Intent.QUESTION_GENERATION,
                 "EXAM_PAPER_GENERATION": Intent.EXAM_PAPER_GENERATION,
+                "GENERAL_CHAT": Intent.GENERAL_CHAT,
             }
             
             intent = intent_mapping.get(intent_str.upper(), Intent.DOUBT_CLARIFICATION)
