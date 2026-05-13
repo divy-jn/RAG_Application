@@ -11,6 +11,11 @@ from app.services.embedding_service import get_embedding_service
 from app.core.exceptions import WorkflowNodeException
 from app.core.config import settings
 
+try:
+    from duckduckgo_search import DDGS
+except ImportError:
+    DDGS = None
+
 
 logger = get_logger(__name__)
 
@@ -117,6 +122,20 @@ class DocumentRetriever:
                 
                 # Build context string
                 context = self._build_context(retrieved_docs)
+                
+                # Web Search Fallback (CRAG-lite)
+                # If we got very few docs or top score is low, augment with web search
+                is_web_search_needed = len(retrieved_docs) == 0 or (
+                    len(retrieved_docs) > 0 and retrieved_docs[0]["similarity_score"] < 0.6
+                )
+                
+                if is_web_search_needed and DDGS:
+                    self.logger.info("Local documents insufficient. Falling back to Web Search.")
+                    web_context = self._perform_web_search(enhanced_query)
+                    if web_context:
+                        context = context + "\n\n--- WEB SEARCH RESULTS ---\n" + web_context
+                        # Add a dummy document type so frontend knows web search was used
+                        state["document_types_available"] = state.get("document_types_available", []) + ["web_search"]
                 
                 # Get available document types
                 doc_types = list(set(doc["document_type"] for doc in retrieved_docs))
@@ -371,6 +390,30 @@ class DocumentRetriever:
                 context_parts.append(f"{chunk_info}\n{doc['chunk_text']}\n")
         
         return "\n".join(context_parts)
+        
+    def _perform_web_search(self, query: str) -> str:
+        """Fallback to DuckDuckGo search to augment context."""
+        try:
+            if not DDGS:
+                return ""
+            
+            with DDGS() as ddgs:
+                results = list(ddgs.text(query, max_results=3))
+            
+            if not results:
+                return ""
+                
+            web_parts = []
+            for i, res in enumerate(results, 1):
+                title = res.get("title", "")
+                body = res.get("body", "")
+                href = res.get("href", "")
+                web_parts.append(f"[Web Source {i}: {title}] ({href})\n{body}\n")
+                
+            return "\n".join(web_parts)
+        except Exception as e:
+            self.logger.warning(f"Web search failed: {e}")
+            return ""
     
     async def retrieve_by_document_type(
         self,
