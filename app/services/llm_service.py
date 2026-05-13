@@ -193,7 +193,7 @@ class CloudLLMService(LoggerMixin):
         top_p: Optional[float] = None,
         stream: bool = False,
         context: Optional[Dict[str, Any]] = None
-    ) -> str:
+    ) -> Dict[str, Any]:
         """
         Generate text using OpenAI-compatible chat completions API.
         
@@ -250,13 +250,21 @@ class CloudLLMService(LoggerMixin):
                         else:
                             run.extra["usage"].update(usage)
                 
-                self.logger.info(
-                    f"Generated response | "
-                    f"Length: {len(result)} chars",
-                    extra=context
-                )
+                # Prepare structured response for LangSmith observability
+                output = {
+                    "generations": [
+                        {
+                            "text": result,
+                            "message": {"role": "assistant", "content": result}
+                        }
+                    ],
+                    "llm_output": {
+                        "token_usage": usage,
+                        "model_name": self.model
+                    }
+                }
                 
-                return result
+                return output
                 
             except Exception as e:
                 self.logger.error(
@@ -383,7 +391,7 @@ class CloudLLMService(LoggerMixin):
             **kwargs: Additional arguments for generate()
             
         Returns:
-            Generated text or fallback response
+            Dictionary containing text and usage
         """
         try:
             return await self.generate(
@@ -396,13 +404,15 @@ class CloudLLMService(LoggerMixin):
                 f"Generation failed, using fallback | Error: {str(e)}"
             )
             
-            if fallback_response:
-                return fallback_response
-            else:
-                return (
-                    "I apologize, but I'm having trouble generating a response "
-                    "right now. Please try again in a moment."
-                )
+            fallback_text = fallback_response or (
+                "I apologize, but I'm having trouble generating a response "
+                "right now. Please try again in a moment."
+            )
+            
+            return {
+                "generations": [{"text": fallback_text}],
+                "llm_output": {"token_usage": None, "model_name": self.model}
+            }
     
     @traceable(name="cloud_llm_chat", run_type="llm")
     async def chat(
@@ -411,7 +421,7 @@ class CloudLLMService(LoggerMixin):
         temperature: Optional[float] = None,
         max_tokens: Optional[int] = None,
         context: Optional[Dict[str, Any]] = None
-    ) -> str:
+    ) -> Dict[str, Any]:
         """
         Chat completion with message history.
         Directly uses the messages array with the OpenAI API.
@@ -610,11 +620,12 @@ if __name__ == "__main__":
             await llm.check_model_availability()
             
             # Test generation
-            response = await llm.generate(
+            llm_response = await llm.generate(
                 prompt="What is machine learning?",
                 system_prompt="You are a helpful AI assistant.",
                 max_tokens=100
             )
+            response = llm_response["generations"][0]["text"]
             
             print(f"\nResponse:\n{response}\n")
             
@@ -626,7 +637,8 @@ if __name__ == "__main__":
                 {"role": "user", "content": "Tell me a joke."}
             ]
             
-            chat_response = await llm.chat(messages, max_tokens=50)
+            llm_chat_response = await llm.chat(messages, max_tokens=50)
+            chat_response = llm_chat_response["generations"][0]["text"]
             print(f"\nChat Response:\n{chat_response}\n")
     
     asyncio.run(test())

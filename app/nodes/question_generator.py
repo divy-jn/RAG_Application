@@ -191,12 +191,13 @@ class QuestionGenerator:
             prompt = self._build_numerical_prompt(context, num_questions, difficulty, topic)
         
         # Generate
-        response = await llm_service.generate(
+        llm_response = await llm_service.generate(
             prompt=prompt,
             system_prompt=self._get_system_prompt(),
             temperature=0.8,
             max_tokens=2000
         )
+        response = llm_response["generations"][0]["text"]
         
         # Parse response into structured questions
         questions = self._parse_llm_response(response, question_type)

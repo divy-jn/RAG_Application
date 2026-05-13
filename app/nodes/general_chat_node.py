@@ -56,12 +56,13 @@ class GeneralChatNode:
                 )
                 
                 # Generate response
-                response = await llm.generate(
+                llm_response = await llm.generate(
                     prompt=prompt,
                     system_prompt=GENERAL_CHAT_SYSTEM,
                     temperature=0.6,
                     max_tokens=300
                 )
+                response = llm_response["generations"][0]["text"]
                 
                 # Update state
                 state["final_response"] = response

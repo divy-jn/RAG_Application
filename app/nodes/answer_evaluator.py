@@ -283,11 +283,12 @@ class AnswerEvaluator:
             student_answer=student_answer
         )
         
-        response = await llm_service.generate(
+        llm_response = await llm_service.generate(
             prompt=prompt,
             temperature=0.3,
             max_tokens=1000
         )
+        response = llm_response["generations"][0]["text"]
         
         # Parse LLM response
         total_marks = self._extract_number(response, r'TOTAL_MARKS:\s*(\d+)')
@@ -320,11 +321,12 @@ class AnswerEvaluator:
             evaluation_details=self._format_evaluation_for_prompt(evaluation)
         )
         
-        feedback = await llm_service.generate(
+        llm_response = await llm_service.generate(
             prompt=prompt,
             temperature=0.7,
             max_tokens=500
         )
+        feedback = llm_response["generations"][0]["text"]
         
         return feedback.strip()
     

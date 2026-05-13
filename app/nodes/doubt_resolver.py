@@ -107,12 +107,13 @@ class DoubtResolver:
         
         system_prompt = DOUBT_RESOLVER_SYSTEM
         
-        answer = await llm_service.generate(
+        llm_response = await llm_service.generate(
             prompt=prompt,
             system_prompt=system_prompt,
             temperature=0.7,
             max_tokens=1500
         )
+        answer = llm_response["generations"][0]["text"]
         
         return answer.strip(), "notes"
     
@@ -127,12 +128,13 @@ class DoubtResolver:
         
         system_prompt = DOUBT_RESOLVER_GENERAL_SYSTEM
         
-        answer = await llm_service.generate(
+        llm_response = await llm_service.generate(
             prompt=prompt,
             system_prompt=system_prompt,
             temperature=0.8,
             max_tokens=1500
         )
+        answer = llm_response["generations"][0]["text"]
         
         return answer.strip(), "general_knowledge"
     

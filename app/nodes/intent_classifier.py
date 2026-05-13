@@ -189,12 +189,13 @@ class IntentClassifier:
         try:
             prompt = INTENT_CLASSIFICATION_USER.format(query=query)
             
-            response = await llm_service.generate(
+            llm_response = await llm_service.generate(
                 prompt=prompt,
                 system_prompt=INTENT_CLASSIFICATION_SYSTEM,
                 temperature=0.3,
                 max_tokens=150
             )
+            response = llm_response["generations"][0]["text"]
             
             # Parse LLM response
             intent_str = self._extract_field(response, "INTENT")

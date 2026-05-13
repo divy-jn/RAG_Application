@@ -84,13 +84,14 @@ class AnswerGenerator:
                 # Generate answer using LLM
                 llm_service = await get_llm_service()
                 
-                generated_answer = await llm_service.generate(
+                llm_response = await llm_service.generate(
                     prompt=prompt,
                     system_prompt=self._get_system_prompt(),
                     temperature=0.7,
                     max_tokens=2000,
                     context={"user_id": state["user_id"], "intent": "answer_generation"}
                 )
+                generated_answer = llm_response["generations"][0]["text"]
                 
                 # Format the answer
                 formatted_answer = self._format_answer(
