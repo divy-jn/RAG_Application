@@ -70,3 +70,9 @@ test_*.py
 check_model.py
 verify_model.py
 scripts/clean_comments.py
+
+sample_photos/
+*.png
+*.jpg
+*.jpeg
+
