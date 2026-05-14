@@ -76,3 +76,6 @@ sample_photos/
 *.jpg
 *.jpeg
 
+
+graphify-out/
+
