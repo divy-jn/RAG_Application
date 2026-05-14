@@ -66,7 +66,7 @@ class DocumentRetriever:
         Returns:
             Updated state with retrieved documents
         """
-        query = state["query"]
+        query = state.get("rewritten_query") or state["query"]
         intent = state.get("intent", Intent.DOUBT_CLARIFICATION)
         user_id = state["user_id"]
         
@@ -105,13 +105,52 @@ class DocumentRetriever:
                 if active_doc_ids:
                     where_filter = {"document_id": {"$in": active_doc_ids}}
                 
-                # Perform semantic search
-                search_results = self.vector_store.search(
-                    query=enhanced_query,
-                    n_results=n_results * 2,  # Retrieve more, then filter
-                    where=where_filter,
-                    include=["documents", "metadatas", "distances"]
-                )
+                # Phase 5: Multi-Query Generation
+                from app.core.prompts import MULTI_QUERY_SYSTEM, MULTI_QUERY_USER
+                from app.services.llm_service import get_llm_service
+                
+                queries_to_search = [enhanced_query]
+                # Only use multi-query for deeper intents
+                if intent in [Intent.ANSWER_GENERATION, Intent.DOUBT_CLARIFICATION, Intent.QUESTION_GENERATION]:
+                    try:
+                        llm = await get_llm_service()
+                        mq_prompt = MULTI_QUERY_USER.format(question=enhanced_query)
+                        mq_response = await llm.generate(
+                            prompt=mq_prompt,
+                            system_prompt=MULTI_QUERY_SYSTEM,
+                            temperature=0.7,
+                            max_tokens=150
+                        )
+                        mq_text = mq_response["generations"][0]["text"]
+                        queries_to_search.extend([q.strip() for q in mq_text.split('\n') if q.strip()])
+                    except Exception as e:
+                        self.logger.warning(f"Multi-query generation failed: {e}")
+                
+                self.logger.info(f"Searching for {len(queries_to_search)} query variations.")
+                
+                all_raw_results = []
+                for q in queries_to_search:
+                    sr = self.vector_store.search(
+                        query=q,
+                        n_results=n_results * 2,  # Retrieve more, then filter
+                        where=where_filter,
+                        include=["documents", "metadatas", "distances"]
+                    )
+                    all_raw_results.append(sr)
+                
+                # Merge and deduplicate results
+                merged_results_list = []
+                seen_chunks = set()
+                
+                for sr in all_raw_results:
+                    for res in sr.get("results", []):
+                        meta = res.get("metadata", {})
+                        chunk_id = f"{meta.get('document_id', 'none')}_{meta.get('chunk_index', res.get('document', ''))}"
+                        if chunk_id not in seen_chunks:
+                            seen_chunks.add(chunk_id)
+                            merged_results_list.append(res)
+                            
+                search_results = {"results": merged_results_list}
                 
                 # Filter and rank results
                 filtered_results = self._filter_and_rank_results(

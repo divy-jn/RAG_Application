@@ -57,6 +57,11 @@ class GraphState(TypedDict, total=False):
     nodes_visited: List[str]
     processing_time: float
     error_message: str
+    # Control flow for Agentic loops
+    run_loop_count: int
+    rewritten_query: str
+    is_hallucination: bool
+    is_relevant: bool
 
 def create_initial_state(user_id: int, query: str, conversation_id: int = None, active_document_ids: List[int] = None, conversation_history: List[Dict[str, str]] = None) -> GraphState:
     return {
@@ -68,5 +73,9 @@ def create_initial_state(user_id: int, query: str, conversation_id: int = None, 
         "nodes_visited": [],
         "task_data": {},
         "retrieved_documents": [],
-        "document_types_available": []
+        "retrieved_documents": [],
+        "document_types_available": [],
+        "run_loop_count": 0,
+        "is_hallucination": False,
+        "is_relevant": False
     }

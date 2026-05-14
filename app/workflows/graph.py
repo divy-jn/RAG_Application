@@ -23,10 +23,19 @@ from app.nodes.document_retriever import retrieve_documents_node
 from app.nodes.answer_generator import generate_answer_node
 from app.nodes.answer_evaluator import evaluate_answer_node
 from app.nodes.doubt_resolver import resolve_doubt_node
+
 from app.nodes.question_generator import generate_questions_node
 from app.nodes.general_chat_node import general_chat_node
+from app.nodes.retrieval_grader import grade_retrieval_node
+from app.nodes.hallucination_grader import hallucination_grader_node
+from app.nodes.query_rewriter import rewrite_query_node
 
-from app.nodes.router import route_after_intent, route_after_retrieval
+from app.nodes.router import (
+    route_after_intent, 
+    route_after_retrieval,
+    route_after_grading,
+    route_after_reflection
+)
 
 
 logger = get_logger(__name__)
@@ -55,6 +64,9 @@ class WorkflowOrchestrator:
         workflow.add_node("resolve_doubt", resolve_doubt_node)
         workflow.add_node("generate_questions", generate_questions_node)
         workflow.add_node("general_chat", general_chat_node)
+        workflow.add_node("grade_retrieval", grade_retrieval_node)
+        workflow.add_node("grade_hallucination", hallucination_grader_node)
+        workflow.add_node("rewrite_query", rewrite_query_node)
         
         # Set entry point
         workflow.set_entry_point("classify_intent")
@@ -74,18 +86,45 @@ class WorkflowOrchestrator:
             "retrieve_documents",
             route_after_retrieval,
             {
-                "generate_answer": "generate_answer",
-                "evaluate_answer": "evaluate_answer",
-                "resolve_doubt": "resolve_doubt",
-                "generate_questions": "generate_questions",
+                "grade_retrieval": "grade_retrieval",
                 "end": END
             }
         )
         
-        # All task nodes end after execution
-        workflow.add_edge("generate_answer", END)
+        workflow.add_conditional_edges(
+            "grade_retrieval",
+            route_after_grading,
+            {
+                "generate_answer": "generate_answer",
+                "evaluate_answer": "evaluate_answer",
+                "resolve_doubt": "resolve_doubt",
+                "generate_questions": "generate_questions",
+                "rewrite_query": "rewrite_query"
+            }
+        )
+        
+        workflow.add_edge("rewrite_query", "retrieve_documents")
+        
+        workflow.add_conditional_edges(
+            "generate_answer",
+            route_after_reflection,
+            {
+                "generate_answer": "generate_answer",
+                "end": END
+            }
+        )
+        
+        workflow.add_conditional_edges(
+            "resolve_doubt",
+            route_after_reflection,
+            {
+                "resolve_doubt": "resolve_doubt",
+                "end": END
+            }
+        )
+        
+        # Nodes that end directly
         workflow.add_edge("evaluate_answer", END)
-        workflow.add_edge("resolve_doubt", END)
         workflow.add_edge("generate_questions", END)
         workflow.add_edge("general_chat", END)
         

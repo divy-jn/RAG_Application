@@ -60,7 +60,27 @@ def route_after_retrieval(state: GraphState) -> Literal[
     
     logger.info(f"Routing to task node: {intent.value}")
     
-    # Route based on intent
+    # New for Phase 4: Route to retrieval grader first
+    return "grade_retrieval"
+
+
+def route_after_grading(state: GraphState) -> Literal[
+    "generate_answer",
+    "evaluate_answer",
+    "resolve_doubt",
+    "generate_questions",
+    "rewrite_query"
+]:
+    """Decide whether to proceed with generation or rewrite the query."""
+    is_relevant = state.get("is_relevant", False)
+    loop_count = state.get("run_loop_count", 0)
+    intent = state.get("intent", Intent.DOUBT_CLARIFICATION)
+    
+    if not is_relevant and loop_count < 2:
+        logger.info(f"Context irrelevant, routing to rewrite_query (Loop {loop_count})")
+        return "rewrite_query"
+    
+    logger.info(f"Proceeding to task node: {intent.value}")
     if intent == Intent.ANSWER_GENERATION:
         return "generate_answer"
     elif intent == Intent.ANSWER_EVALUATION:
@@ -70,8 +90,27 @@ def route_after_retrieval(state: GraphState) -> Literal[
     elif intent == Intent.QUESTION_GENERATION:
         return "generate_questions"
     else:
-        # Default to doubt resolution
         return "resolve_doubt"
+
+
+def route_after_reflection(state: GraphState) -> Literal[
+    "generate_answer",
+    "resolve_doubt",
+    "end"
+]:
+    """Decide whether to regenerate the answer or end."""
+    is_hallucination = state.get("is_hallucination", False)
+    loop_count = state.get("run_loop_count", 0)
+    intent = state.get("intent", Intent.DOUBT_CLARIFICATION)
+    
+    if is_hallucination and loop_count < 3:
+        logger.warning(f"Hallucination detected, routing back to regenerate (Loop {loop_count})")
+        if intent == Intent.ANSWER_GENERATION:
+            return "generate_answer"
+        else:
+            return "resolve_doubt"
+            
+    return "end"
 
 
 def should_continue(state: GraphState) -> Literal["end", "continue"]:
