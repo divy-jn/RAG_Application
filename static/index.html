@@ -252,6 +252,13 @@
             flex-direction: column;
             flex-shrink: 0;
             height: 100vh;
+            transition: width 0.3s ease;
+        }
+
+        .sidebar.collapsed {
+            width: 0;
+            border-right: none;
+            overflow: hidden;
         }
 
         .sidebar-header {
@@ -1336,7 +1343,10 @@
         <div class="app-main">
             <!-- Top Bar -->
             <div class="topbar">
-                <div class="logo">AI Study Assistant</div>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <button id="hamburgerBtn" onclick="toggleSidebar()" style="background: none; border: none; color: var(--text-primary); font-size: 20px; cursor: pointer; display: block;">☰</button>
+                    <div class="logo">AI Study Assistant</div>
+                </div>
                 <div class="user-info">
                     <span id="userName"></span>
                     <div class="avatar" id="userAvatar"></div>
@@ -1513,6 +1523,11 @@
             // ==============================
             // UTILS
             // ==============================
+            function toggleSidebar() {
+                const sidebar = document.getElementById('sidebar');
+                sidebar.classList.toggle('collapsed');
+            }
+
             function toast(msg, type = 'success') {
                 const el = document.createElement('div');
                 el.className = `toast ${type}`;
