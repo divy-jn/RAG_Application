@@ -41,6 +41,17 @@ from app.nodes.router import (
 logger = get_logger(__name__)
 
 
+from app.nodes.cache_lookup import CacheLookupNode
+
+# Instantiate cache node
+cache_lookup_node_inst = CacheLookupNode()
+
+def route_after_cache(state: GraphState) -> str:
+    """Route after cache check."""
+    if state.get("final_response"):
+        return "end"
+    return "classify_intent"
+
 class WorkflowOrchestrator:
     """Orchestrates the LangGraph pipeline for processing user queries."""
     
@@ -57,6 +68,7 @@ class WorkflowOrchestrator:
         workflow = StateGraph(GraphState)
         
         # Add all nodes
+        workflow.add_node("cache_lookup", cache_lookup_node_inst.process)
         workflow.add_node("classify_intent", classify_intent_node)
         workflow.add_node("retrieve_documents", retrieve_documents_node)
         workflow.add_node("generate_answer", generate_answer_node)
@@ -69,9 +81,18 @@ class WorkflowOrchestrator:
         workflow.add_node("rewrite_query", rewrite_query_node)
         
         # Set entry point
-        workflow.set_entry_point("classify_intent")
+        workflow.set_entry_point("cache_lookup")
         
         # Add conditional edges
+        workflow.add_conditional_edges(
+            "cache_lookup",
+            route_after_cache,
+            {
+                "classify_intent": "classify_intent",
+                "end": END
+            }
+        )
+        
         workflow.add_conditional_edges(
             "classify_intent",
             route_after_intent,

@@ -8,6 +8,7 @@ from typing import Optional, List, Dict, Any
 import sqlite3
 import json
 import uuid
+import asyncio
 from datetime import datetime
 
 from app.core.logging_config import get_logger
@@ -391,6 +392,31 @@ async def stream_query(
     
     async def event_generator():
         try:
+            yield f"data: {json.dumps({'type': 'status', 'message': 'Checking semantic cache...'})}\n\n"
+            from app.services.semantic_cache import get_semantic_cache
+            cache = get_semantic_cache()
+            cached = cache.search_cache(query)
+            if cached:
+                yield f"data: {json.dumps({'type': 'status', 'message': 'Cache hit! Serving answer...'})}\n\n"
+                # Stream the cached answer
+                chunk_size = 20
+                ans = cached["answer"]
+                for i in range(0, len(ans), chunk_size):
+                    chunk = ans[i:i+chunk_size]
+                    yield f"data: {json.dumps({'type': 'chunk', 'content': chunk})}\n\n"
+                    await asyncio.sleep(0.01)
+                    
+                yield f"data: {json.dumps({'type': 'done', 'conversation_id': conversation_id})}\n\n"
+                
+                save_message(
+                    conversation_id=conversation_id,
+                    role="assistant",
+                    content=ans,
+                    intent=cached.get("intent", "cached"),
+                    metadata={"source": "semantic_cache"}
+                )
+                return
+            
             yield f"data: {json.dumps({'type': 'status', 'message': 'Fetching history...'})}\n\n"
 
             # 1. Fetch History
@@ -444,10 +470,27 @@ async def stream_query(
             
             if retrieved_docs:
                 yield f"data: {json.dumps({'type': 'info', 'message': f'Found {len(retrieved_docs)} relevant notes'})}\n\n"
+                
+                # Grading Retrieval
+                yield f"data: {json.dumps({'type': 'status', 'message': 'Evaluating relevance of retrieved documents...'})}\n\n"
+                from app.nodes.retrieval_grader import grade_retrieval_node
+                state = await grade_retrieval_node(state)
+                
+                if state.get("retrieval_grade") == "fail":
+                    yield f"data: {json.dumps({'type': 'status', 'message': 'Documents not relevant. Rewriting query...'})}\n\n"
+                    from app.nodes.query_rewriter import rewrite_query_node
+                    state = await rewrite_query_node(state)
+                    
+                    yield f"data: {json.dumps({'type': 'status', 'message': 'Re-searching with improved query...'})}\n\n"
+                    await retriever.retrieve(state)
+                    
+                    context = state.get("context", "")
+                    retrieved_docs = state.get("retrieved_documents", [])
+                    yield f"data: {json.dumps({'type': 'info', 'message': f'Found {len(retrieved_docs)} notes after query rewrite'})}\n\n"
             else:
-                yield f"data: {json.dumps({'type': 'info', 'message': 'No documents found. Rejecting query.'})}\n\n"
+                yield f"data: {json.dumps({'type': 'info', 'message': 'No documents found. Operating on general knowledge.'})}\n\n"
 
-            yield f"data: {json.dumps({'type': 'status', 'message': 'Thinking...'})}\n\n"
+            yield f"data: {json.dumps({'type': 'status', 'message': 'Synthesizing final answer...'})}\n\n"
             
             # 3. Build System Prompt & Messages
             from app.core.prompts import (

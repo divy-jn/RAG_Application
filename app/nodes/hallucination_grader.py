@@ -101,6 +101,17 @@ class ReflectionGrader:
             state["is_hallucination"] = not (is_grounded and is_addressing)
             state["nodes_visited"].append("hallucination_grader")
             
+            if not state["is_hallucination"]:
+                try:
+                    from app.services.semantic_cache import get_semantic_cache
+                    cache = get_semantic_cache()
+                    intent = state.get("intent", "unknown")
+                    if hasattr(intent, "value"):
+                        intent = intent.value
+                    cache.add_to_cache(query, generation, intent)
+                except Exception as e:
+                    self.logger.error(f"Failed to save to semantic cache: {e}")
+            
             self.logger.info(
                 f"Reflection complete | "
                 f"Grounded: {is_grounded} | "
